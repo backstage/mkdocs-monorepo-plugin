@@ -1,0 +1,46 @@
+# Project information
+site_name: "mkdocs-monorepo-plugin (&beta;)"
+site_description: |
+  The official documentation for the Mkdocs monorepo plugin -- for building multiple documentation in a single Mkdocs.
+copyright: 'Copyright &copy; 2019 Spotify AB'
+
+# Repository
+repo_name: 'spotify/mkdocs-monorepo-plugin'
+repo_url: 'https://github.com/spotify/mkdocs-monorepo-plugin'
+
+# Theme
+theme:
+  name: material
+  logo: 'assets/images/spotify.svg'
+  favicon: 'assets/images/favicon.ico'
+  language: 'en'
+  palette:
+    primary: 'blue'
+    accent: 'blue'
+  font:
+    text: 'Circular'
+    code: 'Inconsolata'
+
+extra:
+  repo_icon: 'github'
+
+extra_css:
+  - 'assets/stylesheets/circular.css'
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: true
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+
+# Navigation
+nav:
+  - Getting Started: index.md
+  - Philosophy: philosophy.md
+  - Limitations: limitations.md
+  - Contributing: CONTRIBUTING.md
+  - Code of Conduct: CODE-OF-CONDUCT.md
+  - Changelog: CHANGELOG.md
+  - GitHub Source Code: https://github.com/spotify/mkdocs-monorepo-plugin

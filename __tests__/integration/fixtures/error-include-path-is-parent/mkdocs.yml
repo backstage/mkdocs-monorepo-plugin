@@ -1,0 +1,11 @@
+site_name: "Example"
+site_description: "Description Here"
+
+docs_dir: ./docs
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: index.md
+  - Section: '!include ../mkdocs.yml'

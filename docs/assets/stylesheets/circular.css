@@ -1,0 +1,117 @@
+@font-face {
+  font-family: Circular;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-light.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-light.woff")
+      format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular-hbr;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-light-hbr.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-light-hbr.woff")
+      format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-book.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-book.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular-hbr;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-book-hbr.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-book-hbr.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-medium.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-medium.woff")
+      format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular-hbr;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-medium-hbr.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-medium-hbr.woff")
+      format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-bold.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-bold.woff")
+      format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular-hbr;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-bold-hbr.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-bold-hbr.woff")
+      format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-black.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-black.woff")
+      format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: Circular-hbr;
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-black-hbr.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/circular-black-hbr.woff")
+      format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "noto-arabic";
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-light.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-light.woff")
+      format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "noto-arabic";
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-regular.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-regular.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "noto-arabic";
+  src: url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-bold.woff2")
+      format("woff2"),
+    url("https://sp-bootstrap.global.ssl.fastly.net/8.11.0/fonts/notosansarabic-bold.woff")
+      format("woff");
+  font-weight: 600;
+  font-style: normal;
+}

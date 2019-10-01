@@ -1,0 +1,5 @@
+site_name: versions/v1
+
+nav:
+  - Reference: "reference.md"
+  - Changelog: "changelog.md"

@@ -1,0 +1,74 @@
+name: Build, Test & Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3, 3.5, 3.6, 3.7]
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Bats
+        run: ./__tests__/setup-bats.sh
+      - name: Install Python dependencies
+        run: ./__tests__/setup-pip.sh
+      - name: Tests
+        run: ./__tests__/test-ci.sh
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.7
+      - name: Install Python dependencies
+        run: ./__tests__/setup-pip.sh
+      - name: Build Docs
+        run: |
+          mkdocs build --theme material
+      - name: Install Plugin
+        run: pip install -e .
+      - name: Build Example Docs
+        working-directory: 'sample-docs/'
+        run: |
+          mkdocs build --theme material \
+                --site-dir ../site/monorepo-example/
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@8fd3a55a6f17e453f71eb37964ff360eee24daa7
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./site
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.7
+      - name: Build Python distribution
+        run: |
+          pip install wheel
+          rm -rf dist
+          python setup.py bdist_wheel sdist --formats gztar
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@f3ebf87ba2883f1c40faf37d2bb42277f12179c8
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_api_key }}

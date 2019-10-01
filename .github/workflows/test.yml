@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3, 3.5, 3.6, 3.7]
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Bats
+        run: ./__tests__/setup-bats.sh
+      - name: Install Python dependencies
+        run: ./__tests__/setup-pip.sh
+      - name: Tests
+        run: ./__tests__/test-ci.sh

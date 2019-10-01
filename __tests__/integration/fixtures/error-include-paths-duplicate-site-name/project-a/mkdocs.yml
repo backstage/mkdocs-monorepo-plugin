@@ -1,0 +1,8 @@
+site_name: 'test'
+site_description: 'This is a subdomain site.'
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: README.md
