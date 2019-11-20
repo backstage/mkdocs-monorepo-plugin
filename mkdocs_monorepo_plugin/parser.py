@@ -180,6 +180,9 @@ class IncludeNavLoader:
         return self._prependAliasToNavLinks(self.getAlias(), self.navYaml["nav"])
 
     def _prependAliasToNavLinks(self, alias, nav):
+        # Creating a set of protocols monorepo should not touch
+        protocolSet = set(["http://","https://"])
+        
         for index, item in enumerate(nav):
             if type(item) is str:
                 key = None
@@ -199,10 +202,17 @@ class IncludeNavLoader:
                         "[mkdocs-monorepo] We currently do not support nested !include statements inside of Mkdocs.")
                     raise SystemExit(1)
 
-                if key is None:
-                    nav[index] = "{}/{}".format(alias, value)
+                # Testing value starts with any of protocolSet
+                if ( ((value.split("//",1))[0] + "//" ) in protocolSet ):
+                    if key is None:
+                        nav[index] = "{}".format(value)
+                    else:
+                        nav[index][key] = "{}".format(value)
                 else:
-                    nav[index][key] = "{}/{}".format(alias, value)
+                    if key is None:
+                        nav[index] = "{}/{}".format(alias, value)
+                    else:
+                        nav[index][key] = "{}/{}".format(alias, value)
 
             elif type(value) == list:
                 nav[index] = {}
