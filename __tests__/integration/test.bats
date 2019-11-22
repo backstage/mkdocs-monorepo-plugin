@@ -29,6 +29,11 @@ assertFileExists() {
   [ "$status" -eq 0 ]
 }
 
+assertFileContains() {
+  run grep $2 $1
+  [ "$status" -eq 0 ]
+}
+
 assertSuccessMkdocs() {
   run mkdocs $@
   debugger
@@ -45,7 +50,7 @@ assertFailedMkdocs() {
 ##
 # These are special lifecycle methods for Bats (Bash automated testing).
 # setup() is ran before every test, teardown() is ran after every test.
-#
+#n
 
 teardown() {
   rm -rf ${fixturesDir}/**/*/site
@@ -145,4 +150,23 @@ teardown() {
   cd ${fixturesDir}/error-include-path-no-docs-folder
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The /"*"/__tests__/integration/fixtures/error-include-path-no-docs-folder/project-a/docs path is not valid. Please update your 'nav' with a valid path."* ]]
+}
+
+@test "fails if !include paths included yml has an absolute url. Which results in a broken url" {
+  cd ${fixturesDir}/include-path-absolute-url
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="http://www.absoluteurl.nl"'
+  assertFileContains './site/index.html' 'href="https://www.absoluteurl.nl"'
+  # "{}/{}".format(alias, value) in parser.py results in 	'href="test/ftp://ftp.not-supported-absoluteurl.nl"'
+  # resulting test/index.html shows 						'href="test/ftp:/ftp.not-supported-absoluteurl.nl"'  though
+  # resulting ./index.html shows 							'href="test/ftp://ftp.not-supported-absoluteurl.nl"'
+  # looks like monorepo somehow changes the link. i.e. a slash is lost!
+  assertFileContains './site/index.html' 'href="test/ftp:/ftp.not-supported-absoluteurl.nl"'
+  assertFileContains './site/index.html' 'href="test/x http:/www.not-supported-absoluteurl.nl"'
+
+  # root included links really stay untouched. In the root actually every protocol is supported because refences stay untouched
+  assertFileContains './site/index.html' 'href="ftp://ftp.not-supported-absoluteurl-in-root.nl"'
+
+  [ "$status" -eq 0 ]
 }

@@ -181,7 +181,7 @@ class IncludeNavLoader:
 
     def _prependAliasToNavLinks(self, alias, nav):
         # Creating a set of protocols monorepo should not touch
-        protocolSet = set(["http://","https://"])
+        protocolSet = set(["http://", "https://"])
 
         for index, item in enumerate(nav):
             if type(item) is str:
@@ -203,7 +203,7 @@ class IncludeNavLoader:
                     raise SystemExit(1)
 
                 # Testing value starts with any of protocolSet
-                if ( ((value.split("//",-1))[0] + "//" ) in protocolSet ):
+                if (((value.split("//", 1))[0] + "//") in protocolSet):
                     if key is None:
                         nav[index] = "{}".format(value)
                     else:
