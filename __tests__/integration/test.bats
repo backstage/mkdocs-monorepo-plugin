@@ -50,7 +50,7 @@ assertFailedMkdocs() {
 ##
 # These are special lifecycle methods for Bats (Bash automated testing).
 # setup() is ran before every test, teardown() is ran after every test.
-#n
+#
 
 teardown() {
   rm -rf ${fixturesDir}/**/*/site
