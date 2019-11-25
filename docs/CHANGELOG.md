@@ -3,7 +3,7 @@
 ## 0.4.4
 
 - Fixed bug included mkdocs.yml absolute urls where prefixed by included site_name.
-  inlcuded mkdocs.yml containining http:// and https:// absolute urls stay untouched.    
+- Fixed bug where URLs in an included `mkdocs.yml` were prefixed by the `site_name` and thus did not support absolute URLs.
 
 ## 0.4.1
 
