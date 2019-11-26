@@ -152,7 +152,7 @@ teardown() {
   [[ "$output" == *"[mkdocs-monorepo] The /"*"/__tests__/integration/fixtures/error-include-path-no-docs-folder/project-a/docs path is not valid. Please update your 'nav' with a valid path."* ]]
 }
 
-@test "fails if !include paths included yml has an absolute url. Which results in a broken url" {
+@test "Tests resulting html has untouched supported protocols for FQDN." {
   cd ${fixturesDir}/include-path-absolute-url
   assertSuccessMkdocs build
 
