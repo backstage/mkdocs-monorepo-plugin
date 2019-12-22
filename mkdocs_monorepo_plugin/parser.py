@@ -121,7 +121,7 @@ class IncludeNavLoader:
         return self.absNavPath
 
     def read(self):
-        if not self.absNavPath.endswith("/mkdocs.yml"):
+        if not self.absNavPath.endswith("mkdocs.yml"):
             log.critical(
                 "[mkdocs-monorepo] The included file path {} does not point to a mkdocs.yml".format(
                     self.absNavPath)
