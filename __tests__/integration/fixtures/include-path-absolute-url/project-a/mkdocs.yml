@@ -1,0 +1,13 @@
+site_name: 'test'
+site_description: 'This is a subdomain site.'
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: README.md
+  - 'http fqdn': "http://www.absoluteurl.nl"
+  - 'https fqdn': "https://www.absoluteurl.nl"
+  - 'ftp not supported protocol': "ftp://ftp.not-supported-absoluteurl.nl"
+  - 'http not a fqdn ': "x http://www.not-supported-absoluteurl.nl"
+  
