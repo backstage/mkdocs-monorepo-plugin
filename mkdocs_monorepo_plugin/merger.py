@@ -17,6 +17,8 @@ from distutils.dir_util import copy_tree
 
 import logging
 import os
+from os import listdir
+from os.path import isfile, join
 
 from mkdocs.utils import warning_filter
 
@@ -32,6 +34,7 @@ class Merger:
         self.root_docs_dir = config['docs_dir']
         self.docs_dirs = list()
         self.append('', self.root_docs_dir)
+        self.files_source_dir = dict()
 
     def append(self, alias, docs_dir):
         self.docs_dirs.append([alias, docs_dir])
@@ -57,6 +60,11 @@ class Merger:
 
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
+                files = [f for f in listdir(source_dir) if isfile(join(source_dir, f))]
+                for f in files:
+                    src = join(source_dir, f)
+                    dest = join(dest_dir, f)
+                    self.files_source_dir[dest] = src
             else:
                 log.critical(
                     "[mkdocs-monorepo] The {} path is not valid. ".format(source_dir) +
@@ -64,6 +72,9 @@ class Merger:
                 raise SystemExit(1)
 
         return str(self.temp_docs_dir.name)
+
+    def getFilesSourceFolder(self):
+        return self.files_source_dir
 
     def cleanup(self):
         return self.temp_docs_dir.cleanup()
