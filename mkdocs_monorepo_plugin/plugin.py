@@ -23,6 +23,7 @@ class MonorepoPlugin(BasePlugin):
         self.merger = None
         self.originalDocsDir = None
         self.resolvedPaths = []
+        self.files_source_dir = {}
 
     def on_config(self, config):
         # If no 'nav' defined, we don't need to run.
@@ -56,7 +57,9 @@ class MonorepoPlugin(BasePlugin):
 
     def on_pre_page(self, page, config, files):
         # Update page source attribute to point to source file
-        page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
+        # Only in case any files were moved.
+        if len(self.files_source_dir) > 0:
+            page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
         return page
 
     def on_serve(self, server, config):
