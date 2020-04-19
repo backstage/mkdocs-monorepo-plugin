@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.4
+
+- Bumped up `mkdocs` to 1.1 and `mkdocs-material` to 5.1.0
+
 ## 0.4.3
 
 - Fixed bug with trailing slash in Windows ([#9](https://github.com/spotify/mkdocs-monorepo-plugin/pull/9))
