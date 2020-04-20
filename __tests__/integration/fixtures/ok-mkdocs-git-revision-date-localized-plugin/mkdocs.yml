@@ -5,7 +5,7 @@ docs_dir: ./docs
 
 plugins:
   - monorepo
-  - git-authors
+  - git-revision-date-localized
 
 nav:
   - Home: "index.md"

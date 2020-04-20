@@ -102,14 +102,14 @@ teardown() {
 @test "builds a mkdocs site with mkdocs-git-authors-plugin" {
   cd ${fixturesDir}/ok-git-authors-plugin
   assertSuccessMkdocs build
-  assertFileExists site/plugins/example-Folder/index.html
+  assertFileExists site/test/index.html
   [[ "$output" == *"This contains a sentence which only exists in the ok-git-authors-plugin/project-a fixture."* ]]
 }
 
 @test "builds a mkdocs site with mkdocs-git-revision-date-localized-plugin" {
   cd ${fixturesDir}/ok-mkdocs-git-revision-date-localized-plugin
   assertSuccessMkdocs build
-  assertFileExists site/plugins/example-Folder/index.html
+  assertFileExists site/test/index.html
   [[ "$output" == *"This contains a sentence which only exists in the ok-mkdocs-git-revision-date-localized-plugin/project-a fixture."* ]]
 }
 
