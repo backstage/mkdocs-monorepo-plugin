@@ -99,6 +99,20 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok-nested-site-name-contains-slash/project-a fixture."* ]]
 }
 
+@test "builds a mkdocs site with mkdocs-git-authors-plugin" {
+  cd ${fixturesDir}/ok-git-authors-plugin
+  assertSuccessMkdocs build
+  assertFileExists site/plugins/example-Folder/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-git-authors-plugin/project-a fixture."* ]]
+}
+
+@test "builds a mkdocs site with mkdocs-git-revision-date-localized-plugin" {
+  cd ${fixturesDir}/ok-mkdocs-git-revision-date-localized-plugin
+  assertSuccessMkdocs build
+  assertFileExists site/plugins/example-Folder/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-mkdocs-git-revision-date-localized-plugin/project-a fixture."* ]]
+}
+
 @test "fails if !include path is above current folder" {
   cd ${fixturesDir}/error-include-path-is-parent
   assertFailedMkdocs build
