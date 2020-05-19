@@ -51,7 +51,7 @@ class MonorepoPlugin(BasePlugin):
 
         return config
 
-    def on_serve(self, server, config):
+    def on_serve(self, server, config, **kwargs):
         buildfunc = list(server.watcher._tasks.values())[0]['func']
 
         # still watch the original docs/ directory
