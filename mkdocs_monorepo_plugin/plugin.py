@@ -62,7 +62,7 @@ class MonorepoPlugin(BasePlugin):
             page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
         return page
 
-    def on_serve(self, server, config):
+    def on_serve(self, server, config, **kwargs):
         buildfunc = list(server.watcher._tasks.values())[0]['func']
 
         # still watch the original docs/ directory
