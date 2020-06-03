@@ -10,7 +10,7 @@ function docker_run_integration_tests() {
 docker build -t mkdocs-monorepo-test-runner:$1 --quiet -f- . <<EOF
   FROM python:$1
   COPY ./requirements.txt /workspace/requirements.txt
-  RUN apt-get -y update && apt-get -yyy install bats
+  RUN apt-get -y update && apt-get -yyy install bats && apt-get -yyy install git
   RUN pip install -r /workspace/requirements.txt
   ENTRYPOINT ["bats"]
   CMD ["/workspace/__tests__/integration/test.bats"]
