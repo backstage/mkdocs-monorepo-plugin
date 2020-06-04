@@ -17,8 +17,8 @@ from distutils.dir_util import copy_tree
 
 import logging
 import os
-from os import listdir
-from os.path import isfile, join
+from os.path import join
+from pathlib import Path
 
 from mkdocs.utils import warning_filter
 
@@ -60,11 +60,13 @@ class Merger:
 
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
-                files = [f for f in listdir(source_dir) if isfile(join(source_dir, f))]
-                for f in files:
-                    src = join(source_dir, f)
-                    dest = join(dest_dir, f)
-                    self.files_source_dir[dest] = src
+                for file_abs_path in Path(source_dir).rglob('*.md'):
+                    file_abs_path = str(file_abs_path) # python 3.5 compatibility
+                    if os.path.isfile(file_abs_path):
+                        file_rel_path = os.path.relpath(file_abs_path, source_dir)
+                        dest = join(dest_dir, file_rel_path)
+                        self.files_source_dir[dest] = file_abs_path
+
             else:
                 log.critical(
                     "[mkdocs-monorepo] The {} path is not valid. ".format(source_dir) +
