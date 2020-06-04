@@ -61,6 +61,7 @@ class Merger:
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
                 for file_abs_path in Path(source_dir).rglob('*.md'):
+                    file_abs_path = str(file_abs_path) # python 3.5 compatibility
                     if os.path.isfile(file_abs_path):
                         file_rel_path = os.path.relpath(file_abs_path, source_dir)
                         dest = join(dest_dir, file_rel_path)
