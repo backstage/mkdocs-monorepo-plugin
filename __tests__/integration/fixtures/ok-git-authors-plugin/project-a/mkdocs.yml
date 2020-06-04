@@ -6,3 +6,4 @@ plugins:
 
 nav:
   - Home: README.md
+  - Another: folder/test.md
