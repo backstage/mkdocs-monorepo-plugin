@@ -17,8 +17,13 @@ from distutils.dir_util import copy_tree
 
 import logging
 import os
+<<<<<<< HEAD
 from os.path import join
 from pathlib import Path
+=======
+from os import listdir
+from os.path import isfile, join
+>>>>>>> 6b53d8fa9755843a0a25575af0683697729dbacd
 
 from mkdocs.utils import warning_filter
 
@@ -59,7 +64,6 @@ class Merger:
                 dest_dir = "{}/{}".format(self.temp_docs_dir.name, alias)
 
             if os.path.exists(source_dir):
-                
                 copy_tree(source_dir, dest_dir)
                 for file_abs_path in Path(source_dir).rglob('*.md'):
                     if os.path.isfile(file_abs_path):
