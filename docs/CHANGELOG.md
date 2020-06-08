@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.8
+
+- Dropped support for Python 3.4 in `setup.py`
+
 ## 0.4.6
 
 - Fixes [compatibility issue with `mkdocs-git-revision-date-localized-plugin`](https://github.com/spotify/mkdocs-monorepo-plugin/issues/12)

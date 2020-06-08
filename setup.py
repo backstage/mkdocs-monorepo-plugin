@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name='mkdocs-monorepo-plugin',
-    version='0.4.7',
+    version='0.4.8',
     description='Plugin for adding monorepository support in Mkdocs.',
     long_description="""
         This introduces support for the !include syntax in mkdocs.yml, allowing you to import additional Mkdocs navigation.
@@ -25,7 +25,6 @@ setuptools.setup(
         'Intended Audience :: Information Technology',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7'
