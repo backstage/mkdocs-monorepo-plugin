@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.9
+
+- Fix issue using plugin on Windows when site_name contains slash
+
 ## 0.4.8
 
 - Dropped support for Python 3.4 in `setup.py`
