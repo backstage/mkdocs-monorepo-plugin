@@ -92,10 +92,10 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
-@test "builds a mkdocs site with site_name containing slash with transformed path" {
+@test "builds a mkdocs site with site_name containing slash" {
   cd ${fixturesDir}/ok-nested-site-name-contains-slash
   assertSuccessMkdocs build
-  assertFileExists site/plugins-example-Folder/index.html
+  assertFileExists site/plugins/example-Folder/index.html
   [[ "$output" == *"This contains a sentence which only exists in the ok-nested-site-name-contains-slash/project-a fixture."* ]]
 }
 

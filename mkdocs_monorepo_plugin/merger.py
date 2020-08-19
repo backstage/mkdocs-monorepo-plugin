@@ -56,7 +56,8 @@ class Merger:
                 dest_dir = self.temp_docs_dir.name
             else:
                 source_dir = os.path.join(docs_dir, "docs")
-                dest_dir = os.path.join(self.temp_docs_dir.name, alias.replace("/", "-"))
+                split_alias = alias.split("/")
+                dest_dir = os.path.join(self.temp_docs_dir.name, *split_alias)
 
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
