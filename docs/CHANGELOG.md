@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.10
+
+- New fix for previous issue which doesn't break when site_name contains a slash
+
 ## 0.4.9
 
 - Fix issue using plugin on Windows when site_name contains slash
