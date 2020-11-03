@@ -5,8 +5,8 @@ site_description: |
 copyright: 'Copyright &copy; 2019 Spotify AB'
 
 # Repository
-repo_name: 'spotify/mkdocs-monorepo-plugin'
-repo_url: 'https://github.com/spotify/mkdocs-monorepo-plugin'
+repo_name: 'backstage/mkdocs-monorepo-plugin'
+repo_url: 'https://github.com/backstage/mkdocs-monorepo-plugin'
 
 # Theme
 theme:
@@ -43,4 +43,4 @@ nav:
   - Contributing: CONTRIBUTING.md
   - Code of Conduct: CODE-OF-CONDUCT.md
   - Changelog: CHANGELOG.md
-  - GitHub Source Code: https://github.com/spotify/mkdocs-monorepo-plugin
+  - GitHub Source Code: https://github.com/backstage/mkdocs-monorepo-plugin
