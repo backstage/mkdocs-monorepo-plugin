@@ -1,6 +1,6 @@
-# spotify/mkdocs-monorepo-plugin
+# backstage/mkdocs-monorepo-plugin
 
-[![](https://github.com/spotify/mkdocs-monorepo-plugin/workflows/Build%2C%20Test%20%26%20Deploy/badge.svg)](https://github.com/spotify/mkdocs-monorepo-plugin/actions)
+[![](https://github.com/backstage/mkdocs-monorepo-plugin/workflows/Build%2C%20Test%20%26%20Deploy/badge.svg)](https://github.com/backstage/mkdocs-monorepo-plugin/actions)
 [![PyPI](https://img.shields.io/pypi/v/mkdocs-monorepo-plugin)](https://pypi.org/project/mkdocs-monorepo-plugin/)
 ![](https://img.shields.io/badge/lifecycle-beta-509bf5.svg)
 [![PyPI - License](https://img.shields.io/pypi/l/mkdocs-monorepo-plugin)](LICENSE)
@@ -31,7 +31,7 @@ $ pip install mkdocs-monorepo-plugin
 
 ## Usage
 
-Take a look at [our sample project](https://github.com/spotify/mkdocs-monorepo-plugin/tree/master/sample-docs) or do the following:
+Take a look at [our sample project](https://github.com/backstage/mkdocs-monorepo-plugin/tree/master/sample-docs) or do the following:
 
 - In the root, add the `monorepo` to your `plugins` key in `mkdocs.yml`
 - Create a subfolder, with a `mkdocs.yml` with a `site_name` and `nav`, as well as a `docs/` folder with an `index.md`
@@ -121,7 +121,7 @@ $ tree .
 
 ## License
 
-Released under the Apache 2.0 License. See [here](https://github.com/spotify/mkdocs-monorepo-plugin/blob/master/LICENSE) for more details.
+Released under the Apache 2.0 License. See [here](https://github.com/backstage/mkdocs-monorepo-plugin/blob/master/LICENSE) for more details.
 
 ## Contributing
 

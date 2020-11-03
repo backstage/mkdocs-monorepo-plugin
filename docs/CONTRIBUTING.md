@@ -14,7 +14,7 @@ We welcome contributions! We believe that by fostering a healthy, inclusive, and
 This part should be easy. If it's not, let us know! The first thing you'll want to do is import the repository and open up the directory.
 
 ```terminal
-$ git clone git@github.com:spotify/mkdocs-monorepo-plugin.git
+$ git clone git@github.com:backstage/mkdocs-monorepo-plugin.git
 ```
 
 Then using the `--editable` flag, you can install the package locally. This points the actual plugin to the folder which allows you to make changes dynamically without having to re-install it every time you want to test a change.
