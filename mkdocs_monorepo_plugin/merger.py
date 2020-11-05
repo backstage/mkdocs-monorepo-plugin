@@ -30,6 +30,13 @@ log.addFilter(warning_filter)
 
 class Merger:
     def __init__(self, config):
+        """
+        Initialize the root directory.
+
+        Args:
+            self: (todo): write your description
+            config: (todo): write your description
+        """
         self.config = config
         self.root_docs_dir = config['docs_dir']
         self.docs_dirs = list()
@@ -37,9 +44,23 @@ class Merger:
         self.files_source_dir = dict()
 
     def append(self, alias, docs_dir):
+        """
+        Append a doc_dir to the list.
+
+        Args:
+            self: (todo): write your description
+            alias: (str): write your description
+            docs_dir: (str): write your description
+        """
         self.docs_dirs.append([alias, docs_dir])
 
     def merge(self):
+        """
+        Merge docstring of the docstrings.
+
+        Args:
+            self: (todo): write your description
+        """
         self.temp_docs_dir = TemporaryDirectory('', 'docs_')
 
         aliases = list(filter(lambda docs_dir: len(docs_dir) > 0, map(
@@ -77,7 +98,19 @@ class Merger:
         return str(self.temp_docs_dir.name)
 
     def getFilesSourceFolder(self):
+        """
+        Returns a list of source files.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.files_source_dir
 
     def cleanup(self):
+        """
+        Cleans up the temporary directory.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.temp_docs_dir.cleanup()
