@@ -27,10 +27,24 @@ INCLUDE_STATEMENT = "!include "
 
 class Parser:
     def __init__(self, config):
+        """
+        Initialize the configuration.
+
+        Args:
+            self: (todo): write your description
+            config: (todo): write your description
+        """
         self.initialNav = config['nav']
         self.config = config
 
     def __loadAliasesAndResolvedPaths(self, nav=None):
+        """
+        Loads the list of the inputed by the inputed list.
+
+        Args:
+            self: (todo): write your description
+            nav: (todo): write your description
+        """
         if nav is None:
             nav = copy.deepcopy(self.initialNav)
 
@@ -52,7 +66,19 @@ class Parser:
         return paths
 
     def getResolvedPaths(self):
+        """
+        Loads the working directory of the given path.
+
+        Args:
+            self: (todo): write your description
+        """
         def removeMkdocsYmlFromPath(path):
+            """
+            Removes the documentation of a given path.
+
+            Args:
+                path: (str): write your description
+            """
             rootDir = os.path.normpath(os.path.join(
                 os.getcwd(), self.config['config_file_path'], '../'))
             absPath = os.path.normpath(os.path.join(
@@ -60,6 +86,12 @@ class Parser:
             return absPath
 
         def extractAliasAndPath(absPath):
+            """
+            Extracts a list of relative paths.
+
+            Args:
+                absPath: (str): write your description
+            """
             return [IncludeNavLoader(self.config, absPath).read().getAlias(), removeMkdocsYmlFromPath(absPath)]
 
         resolvedPaths = list(
@@ -75,6 +107,13 @@ class Parser:
         return resolvedPaths
 
     def resolve(self, nav=None):
+        """
+        Resolve a copy of the configuration item.
+
+        Args:
+            self: (todo): write your description
+            nav: (str): write your description
+        """
         if nav is None:
             nav = copy.deepcopy(self.initialNav)
 
@@ -110,6 +149,14 @@ class Parser:
 
 class IncludeNavLoader:
     def __init__(self, config, navPath):
+        """
+        Initialize the database.
+
+        Args:
+            self: (todo): write your description
+            config: (todo): write your description
+            navPath: (str): write your description
+        """
         self.rootDir = os.path.normpath(os.path.join(
             os.getcwd(), config['config_file_path'], '../'))
         self.navPath = navPath
@@ -118,9 +165,21 @@ class IncludeNavLoader:
         self.navYaml = None
 
     def getAbsNavPath(self):
+        """
+        Return the absolute path of this item.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.absNavPath
 
     def read(self):
+        """
+        Read the configuration file.
+
+        Args:
+            self: (todo): write your description
+        """
         if not self.absNavPath.endswith("mkdocs.yml"):
             log.critical(
                 "[mkdocs-monorepo] The included file path {} does not point to a mkdocs.yml".format(
@@ -165,6 +224,12 @@ class IncludeNavLoader:
         return self
 
     def getAlias(self):
+        """
+        Returns the alias of the alias.
+
+        Args:
+            self: (todo): write your description
+        """
         alias = self.navYaml["site_name"]
         regex = '^[a-zA-Z0-9_\-/]+$'  # noqa: W605
 
@@ -177,9 +242,23 @@ class IncludeNavLoader:
         return alias
 
     def getNav(self):
+        """
+        Return a list of the values of this item.
+
+        Args:
+            self: (todo): write your description
+        """
         return self._prependAliasToNavLinks(self.getAlias(), self.navYaml["nav"])
 
     def _prependAliasToNavLinks(self, alias, nav):
+        """
+        Given a list of - of - > value
+
+        Args:
+            self: (todo): write your description
+            alias: (str): write your description
+            nav: (todo): write your description
+        """
         for index, item in enumerate(nav):
             if type(item) is str:
                 key = None

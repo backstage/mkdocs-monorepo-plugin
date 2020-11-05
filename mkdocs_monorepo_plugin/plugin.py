@@ -19,6 +19,12 @@ from .merger import Merger
 
 class MonorepoPlugin(BasePlugin):
     def __init__(self):
+        """
+        Initialize the parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser = None
         self.merger = None
         self.originalDocsDir = None
@@ -26,6 +32,13 @@ class MonorepoPlugin(BasePlugin):
         self.files_source_dir = {}
 
     def on_config(self, config):
+        """
+        Called when a config is received.
+
+        Args:
+            self: (todo): write your description
+            config: (dict): write your description
+        """
         # If no 'nav' defined, we don't need to run.
         if not config.get('nav'):
             return config
@@ -56,6 +69,15 @@ class MonorepoPlugin(BasePlugin):
         return config
 
     def on_pre_page(self, page, config, files):
+        """
+        Return true we need to the given page.
+
+        Args:
+            self: (todo): write your description
+            page: (int): write your description
+            config: (todo): write your description
+            files: (list): write your description
+        """
         # Update page source attribute to point to source file
         # Only in case any files were moved.
         if len(self.files_source_dir) > 0:
@@ -63,6 +85,14 @@ class MonorepoPlugin(BasePlugin):
         return page
 
     def on_serve(self, server, config, **kwargs):
+        """
+        Starts a server on_dirs.
+
+        Args:
+            self: (todo): write your description
+            server: (todo): write your description
+            config: (todo): write your description
+        """
         buildfunc = list(server.watcher._tasks.values())[0]['func']
 
         # still watch the original docs/ directory
@@ -74,4 +104,11 @@ class MonorepoPlugin(BasePlugin):
             server.watch("{}/docs".format(submodule_dir), buildfunc)
 
     def post_build(self, config):
+        """
+        Called when the configuration.
+
+        Args:
+            self: (todo): write your description
+            config: (todo): write your description
+        """
         self.merger.cleanup()
