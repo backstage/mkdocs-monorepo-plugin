@@ -1,0 +1,25 @@
+name: Automatically add new TechDocs Issues and PRs to the GitHub project board
+# Development of TechDocs in Backstage is managed by this Kanban board - https://github.com/orgs/backstage/projects/1
+# New issues and PRs in this repository will be added to the board.
+# Caveat: New PRs created from forks will not be added since GitHub actions don't share credentials with forks.
+# Inspired by https://github.com/backstage/backstage/blob/master/.github/workflows/techdocs-project-board.yml
+
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened, reopened]
+
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
+
+jobs:
+  assign_issue_or_pr_to_project:
+    runs-on: ubuntu-latest
+    name: Triage
+    steps:
+      - name: Assign new issue or PR to Incoming
+        uses: srggrs/assign-one-project-github-action@1.2.0
+        with:
+          project: "https://github.com/orgs/backstage/projects/1"
+          column_name: "Incoming"
