@@ -9,7 +9,7 @@
 
 ✚ This plugin enables you to build multiple sets of documentation in a single Mkdocs. It is designed to address writing documentation in Spotify's largest and most business-critical codebases (typically monoliths or monorepos).
 
-✏️ [Blog Post](https://labs.spotify.com/2019/10/01/solving-documentation-for-monoliths-and-monorepos/) | 🐍 [Python Package](https://pypi.org/project/mkdocs-monorepo-plugin/) | ✚ [Demo](https://spotify.github.io/mkdocs-monorepo-plugin/monorepo-example/) | 📕 [Docs](https://spotify.github.io/mkdocs-monorepo-plugin/)
+✏️ [Blog Post](https://labs.spotify.com/2019/10/01/solving-documentation-for-monoliths-and-monorepos/) | 🐍 [Python Package](https://pypi.org/project/mkdocs-monorepo-plugin/) | ✚ [Demo](https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/) | 📕 [Docs](https://backstage.github.io/mkdocs-monorepo-plugin/)
 
 ## Features
 
@@ -31,7 +31,7 @@ $ pip install mkdocs-monorepo-plugin
 
 ## Usage
 
-Take a look in [our sample project](./sample-docs) for an example implementation, or see [what it looks like after running `mkdocs build`](https://spotify.github.io/mkdocs-monorepo-plugin/monorepo-example/).
+Take a look in [our sample project](./sample-docs) for an example implementation, or see [what it looks like after running `mkdocs build`](https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/).
 
 In general, this plugin introduces the `!include` syntax in your Mkdocs navigation structure and then merges them together.
 
