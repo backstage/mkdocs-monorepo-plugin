@@ -142,7 +142,7 @@ class IncludeNavLoader:
                 # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
                 # the sub folder and scaffold the `nav` property from it
                 if self.navYaml and 'nav' not in self.navYaml:
-                    if self.navYaml["docs_dir"]:
+                    if "docs_dir" in self.navYaml:
                         docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
 
                         def navFromDir(path):
