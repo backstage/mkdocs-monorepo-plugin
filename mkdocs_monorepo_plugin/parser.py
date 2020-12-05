@@ -138,6 +138,32 @@ class IncludeNavLoader:
         try:
             with open(self.absNavPath, 'rb') as f:
                 self.navYaml = yaml_load(f)
+
+                # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
+                # the sub folder and scaffold the `nav` property from it
+                if self.navYaml and 'nav' not in self.navYaml:
+                    if self.navYaml["docs_dir"]:
+                        docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
+
+                        def navFromDir(path):
+                            directory = {}
+
+                            for dirname, dirnames, filenames in os.walk(path):
+                                dn = os.path.basename(dirname)
+                                directory[dn] = []
+
+                                for dirItem in dirnames:
+                                    directory[dn].append(navFromDir(path=os.path.join(path, dirItem)))
+
+                                for fileItem in filenames:
+                                    fileTitle = os.path.splitext(fileItem)[0]
+                                    filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
+                                    directory[dn].append({fileTitle: filePath})
+
+                                return directory
+
+                        self.navYaml["nav"] = navFromDir(docsDirPath)[os.path.basename(docsDirPath)]
+
         except OSError:
             log.critical(
                 "[mkdocs-monorepo] The file path {} does not exist, ".format(self.absNavPath) +
