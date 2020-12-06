@@ -153,14 +153,21 @@ class IncludeNavLoader:
                                 directory[dn] = []
 
                                 for dirItem in dirnames:
-                                    directory[dn].append(navFromDir(path=os.path.join(path, dirItem)))
+                                    subNav = navFromDir(path=os.path.join(path, dirItem))
+                                    if subNav:
+                                        directory[dn].append(subNav)
 
                                 for fileItem in filenames:
-                                    fileTitle = os.path.splitext(fileItem)[0]
-                                    filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
-                                    directory[dn].append({fileTitle: filePath})
+                                    fileTitle, fileExt = os.path.splitext(fileItem)
+                                    if fileExt == '.md':
+                                        filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
+                                        directory[dn].append({fileTitle: filePath})
 
-                                return directory
+                                if len(directory[dn]) == 0 or directory[dn] == [{}]:
+                                    del directory[dn]
+
+                                if directory != {}:
+                                    return directory
 
                         self.navYaml["nav"] = navFromDir(docsDirPath)[os.path.basename(docsDirPath)]
 
