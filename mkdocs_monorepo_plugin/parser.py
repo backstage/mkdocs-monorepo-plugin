@@ -56,7 +56,7 @@ class Parser:
             rootDir = os.path.normpath(os.path.join(
                 os.getcwd(), self.config['config_file_path'], '../'))
             absPath = os.path.normpath(os.path.join(
-                rootDir, re.sub(r'\/mkdocs.yml$', '', path, re.IGNORECASE)))
+                rootDir, re.sub(r'(.*)\/.*\.yml$', r'\1', path, re.IGNORECASE)))
             return absPath
 
         def extractAliasAndPath(absPath):
@@ -121,9 +121,9 @@ class IncludeNavLoader:
         return self.absNavPath
 
     def read(self):
-        if not self.absNavPath.endswith("mkdocs.yml"):
+        if not self.absNavPath.endswith(".yml"):
             log.critical(
-                "[mkdocs-monorepo] The included file path {} does not point to a mkdocs.yml".format(
+                "[mkdocs-monorepo] The included file path {} does not point to a .yml file".format(
                     self.absNavPath)
             )
             raise SystemExit(1)
