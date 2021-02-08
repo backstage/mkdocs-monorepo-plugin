@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.12
+
+- Allow any config file name (#36)
+
 ## 0.4.11
 
 - Moved repository to the Backstage organization
