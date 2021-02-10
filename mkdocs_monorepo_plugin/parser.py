@@ -56,6 +56,7 @@ class Parser:
             rootDir = os.path.normpath(os.path.join(
                 os.getcwd(), self.config['config_file_path'], '../'))
             absPath = os.path.normpath(os.path.join(
+                # Remove config file name from path, match any *.yml file
                 rootDir, re.sub(r'(.*)\/.*\.yml$', r'\1', path, re.IGNORECASE)))
             return absPath
 
