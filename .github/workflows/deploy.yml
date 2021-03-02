@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - ".github/workflows/deploy.yml"
+      - "setup.py"
 
 jobs:
   test:
@@ -43,7 +46,7 @@ jobs:
       - name: Install Plugin
         run: pip install -e .
       - name: Build Example Docs
-        working-directory: 'sample-docs/'
+        working-directory: "sample-docs/"
         run: |
           mkdocs build --theme material \
                 --site-dir ../site/monorepo-example/
