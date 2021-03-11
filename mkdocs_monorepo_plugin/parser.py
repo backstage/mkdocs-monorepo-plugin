@@ -17,8 +17,7 @@ import os
 import copy
 import re
 
-from mkdocs.utils import yaml_load, warning_filter
-
+from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
 log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
 
@@ -149,7 +148,11 @@ class IncludeNavLoader:
                             directory = {}
 
                             for dirname, dirnames, filenames in os.walk(path):
-                                dn = os.path.basename(dirname)
+
+                                if dirname == docsDirPath:
+                                    dn = os.path.basename(dirname)
+                                else:
+                                    dn = dirname_to_title(os.path.basename(dirname))
                                 directory[dn] = []
 
                                 for dirItem in dirnames:
@@ -158,8 +161,9 @@ class IncludeNavLoader:
                                         directory[dn].append(subNav)
 
                                 for fileItem in filenames:
-                                    fileTitle, fileExt = os.path.splitext(fileItem)
+                                    fileName, fileExt = os.path.splitext(fileItem)
                                     if fileExt == '.md':
+                                        fileTitle = get_markdown_title(fileName)
                                         filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
                                         directory[dn].append({fileTitle: filePath})
 
