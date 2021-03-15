@@ -70,6 +70,7 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
+
 @test "builds a mkdocs site with the correct contents and paths" {
   cd ${fixturesDir}/ok-conflict
   assertSuccessMkdocs build
@@ -90,6 +91,17 @@ teardown() {
   cd ${fixturesDir}/ok/project-a
   assertSuccessMkdocs build
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
+}
+
+@test "builds a mkdocs site if !include path does not contain nav" {
+  cd ${fixturesDir}/ok-include-path-no-nav
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
+  # Check if directory names are formatted correctly
+  [[ "$output" == *'<a href="#" class="dropdown-item">Small small</a>'* ]]
+  # Check if Title names are generated correctly by using the markdown header
+  [[ "$output" == *'<a href="small-small/test/" class="dropdown-item">Hello</a>'* ]]
 }
 
 @test "builds a mkdocs site with site_name containing slash" {
@@ -147,12 +159,6 @@ teardown() {
   cd ${fixturesDir}/error-include-path-no-site-name
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-include-path-no-site-name/project-a/mkdocs.yml does not contain a valid 'site_name' key in the YAML file. Please include it to indicate where your documentation should be moved to."* ]]
-}
-
-@test "fails if !include path does not contain nav" {
-  cd ${fixturesDir}/error-include-path-no-nav
-  assertFailedMkdocs build
-  [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-include-path-no-nav/project-a/mkdocs.yml does not contain a valid 'nav' key in the YAML file. Please include it to indicate how your documentation should be presented in the navigation."* ]]
 }
 
 @test "fails if !include path does not contain docs/ folder" {
