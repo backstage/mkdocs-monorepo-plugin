@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.13
+
+- Allow other plugins to manipulate the source directory (#42)
+
 ## 0.4.12
 
 - Allow any config file name and not just `mkdocs.yml` (#36)
