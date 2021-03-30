@@ -59,7 +59,8 @@ class MonorepoPlugin(BasePlugin):
         # Update page source attribute to point to source file
         # Only in case any files were moved.
         if len(self.files_source_dir) > 0:
-            page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
+            if page.file.abs_src_path in self.files_source_dir:
+              page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
         return page
 
     def on_serve(self, server, config, **kwargs):
