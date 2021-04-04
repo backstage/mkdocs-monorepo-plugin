@@ -20,7 +20,7 @@ import os
 from os.path import join
 from pathlib import Path
 
-from mkdocs.utils import warning_filter
+from mkdocs.utils import yaml_load, warning_filter
 
 log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
@@ -55,7 +55,23 @@ class Merger:
                 source_dir = docs_dir
                 dest_dir = self.temp_docs_dir.name
             else:
-                source_dir = os.path.join(docs_dir, "docs")
+                config_file = os.path.join(docs_dir, 'mkdocs.yml')
+                if not os.path.exists(config_file):
+                    log.critical(
+                        "[mkdocs-monorepo] The {} path is not valid. ".format(config_file) +
+                        "Please update your 'nav' with a valid path.")
+                    raise SystemExit(1)
+                try:
+                    with open(config_file, 'rb') as f:
+                        config_yaml = yaml_load(f)
+                except OSError:
+                    log.critical(
+                        "[mkdocs-monorepo] The file path {} does not exist, ".format(self.absNavPath) +
+                        "or is not valid YAML.")
+                    raise SystemExit(1)
+
+                subdocs_dir = config_yaml.get('docs_dir', 'docs')
+                source_dir = os.path.join(docs_dir, subdocs_dir)
                 split_alias = alias.split("/")
                 dest_dir = os.path.join(self.temp_docs_dir.name, *split_alias)
 
