@@ -39,7 +39,7 @@ class MonorepoPlugin(BasePlugin):
 
         # Generate a new "docs" directory
         self.merger = Merger(config)
-        for alias, docs_dir in resolvedPaths:
+        for alias, docs_dir, yaml_file in resolvedPaths:
             self.merger.append(alias, docs_dir)
         new_docs_dir = self.merger.merge()
 
@@ -60,7 +60,7 @@ class MonorepoPlugin(BasePlugin):
         # Only in case any files were moved.
         if len(self.files_source_dir) > 0:
             if page.file.abs_src_path in self.files_source_dir:
-              page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
+                page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
         return page
 
     def on_serve(self, server, config, **kwargs):
@@ -70,9 +70,9 @@ class MonorepoPlugin(BasePlugin):
         server.watch(self.originalDocsDir, buildfunc)
 
         # watch all the sub docs/ folders
-        for _, submodule_dir in self.resolvedPaths:
-            server.watch("{}/mkdocs.yml".format(submodule_dir), buildfunc)
-            server.watch("{}/docs".format(submodule_dir), buildfunc)
+        for _, docs_dir, yaml_file in self.resolvedPaths:
+            server.watch(yaml_file, buildfunc)
+            server.watch(docs_dir, buildfunc)
 
     def post_build(self, config):
         self.merger.cleanup()

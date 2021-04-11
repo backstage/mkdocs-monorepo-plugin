@@ -10,4 +10,4 @@ nav:
   - Home: "index.md"
   - Subnav:
     - index.md
-  - Hello: "!include project-a/mkdocs.yml"
+  - Hello: "!include mkdocs_subrepo.yml"
