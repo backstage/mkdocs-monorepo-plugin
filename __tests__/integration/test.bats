@@ -92,6 +92,20 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
+@test "builds a mkdocs site with docs_dir differently specified in mkdocs.yml" {
+  cd ${fixturesDir}/ok-different-docs-dir
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-different-docs-dir/project-a fixture."* ]]
+}
+
+@test "builds a mkdocs site with different config file than mkdocs.yml" {
+  cd ${fixturesDir}/ok-different-config-name
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-different-config-name/project-a fixture."* ]]
+}
+
 @test "builds a mkdocs site with site_name containing slash" {
   cd ${fixturesDir}/ok-nested-site-name-contains-slash
   assertSuccessMkdocs build

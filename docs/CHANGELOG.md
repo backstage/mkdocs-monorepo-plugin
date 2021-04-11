@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.14
+
+- Now respects the `docs_dir` config in `mkdocs.yml` (#44)
+
 ## 0.4.13
 
 - Allow other plugins to manipulate the source directory (#42)
