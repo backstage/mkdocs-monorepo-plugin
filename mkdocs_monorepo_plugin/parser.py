@@ -138,42 +138,45 @@ class IncludeNavLoader:
             with open(self.absNavPath, 'rb') as f:
                 self.navYaml = yaml_load(f)
 
-                # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
-                # the sub folder and scaffold the `nav` property from it
-                if self.navYaml and 'nav' not in self.navYaml:
-                    if "docs_dir" in self.navYaml:
-                        docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
+            # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
+            # the sub folder and scaffold the `nav` property from it
+            if self.navYaml and 'nav' not in self.navYaml and "docs_dir" in self.navYaml:
+                docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
 
-                        def navFromDir(path):
-                            directory = {}
+                def navFromDir(path):
+                    directory = {}
 
-                            for dirname, dirnames, filenames in os.walk(path):
+                    for dirname, dirnames, filenames in os.walk(path):
 
-                                if dirname == docsDirPath:
-                                    dn = os.path.basename(dirname)
-                                else:
-                                    dn = dirname_to_title(os.path.basename(dirname))
-                                directory[dn] = []
+                        dirnames.sort()
+                        filenames.sort()
 
-                                for dirItem in dirnames:
-                                    subNav = navFromDir(path=os.path.join(path, dirItem))
-                                    if subNav:
-                                        directory[dn].append(subNav)
+                        if dirname == docsDirPath:
+                            dn = os.path.basename(dirname)
+                        else:
+                            dn = dirname_to_title(os.path.basename(dirname))
+                        directory[dn] = []
 
-                                for fileItem in filenames:
-                                    fileName, fileExt = os.path.splitext(fileItem)
-                                    if fileExt == '.md':
-                                        fileTitle = get_markdown_title(fileName)
-                                        filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
-                                        directory[dn].append({fileTitle: filePath})
+                        for dirItem in dirnames:
+                            subNav = navFromDir(path=os.path.join(path, dirItem))
+                            if subNav:
+                                directory[dn].append(subNav)
 
-                                if len(directory[dn]) == 0 or directory[dn] == [{}]:
-                                    del directory[dn]
+                        for fileItem in filenames:
+                            fileName, fileExt = os.path.splitext(fileItem)
+                            if fileExt == '.md':
+                                fileTitle = get_markdown_title(fileName)
+                                filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
+                                directory[dn].append({fileTitle: filePath})
 
-                                if directory != {}:
-                                    return directory
+                        if len(directory[dn]) == 0 or directory[dn] == [{}]:
+                            del directory[dn]
 
-                        self.navYaml["nav"] = navFromDir(docsDirPath)[os.path.basename(docsDirPath)]
+                        return directory
+
+                navYaml = navFromDir(docsDirPath)
+                if navYaml:
+                    self.navYaml["nav"] = navYaml[os.path.basename(docsDirPath)]
 
         except OSError:
             log.critical(

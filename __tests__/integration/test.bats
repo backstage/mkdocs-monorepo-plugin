@@ -166,3 +166,9 @@ teardown() {
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The /"*"/__tests__/integration/fixtures/error-include-path-no-docs-folder/project-a/docs path is not valid. Please update your 'nav' with a valid path."* ]]
 }
+
+@test "fails if !include path docs_dir does not contain any files" {
+  cd ${fixturesDir}/error-no-nav-no-docs
+  assertFailedMkdocs build
+  [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-no-nav-no-docs/project-a/mkdocs.yml does not contain a valid 'nav' key in the YAML file. Please include it to indicate how your documentation should be presented in the navigation."* ]]
+}
