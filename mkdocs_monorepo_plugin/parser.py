@@ -17,8 +17,7 @@ import os
 import copy
 import re
 
-from mkdocs.utils import yaml_load, warning_filter
-
+from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
 log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
 
@@ -135,6 +134,47 @@ class IncludeNavLoader:
         try:
             with open(self.absNavPath, 'rb') as f:
                 self.navYaml = yaml_load(f)
+
+            # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
+            # the sub folder and scaffold the `nav` property from it
+            if self.navYaml and 'nav' not in self.navYaml and "docs_dir" in self.navYaml:
+                docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
+
+                def navFromDir(path):
+                    directory = {}
+
+                    for dirname, dirnames, filenames in os.walk(path):
+
+                        dirnames.sort()
+                        filenames.sort()
+
+                        if dirname == docsDirPath:
+                            dn = os.path.basename(dirname)
+                        else:
+                            dn = dirname_to_title(os.path.basename(dirname))
+                        directory[dn] = []
+
+                        for dirItem in dirnames:
+                            subNav = navFromDir(path=os.path.join(path, dirItem))
+                            if subNav:
+                                directory[dn].append(subNav)
+
+                        for fileItem in filenames:
+                            fileName, fileExt = os.path.splitext(fileItem)
+                            if fileExt == '.md':
+                                fileTitle = get_markdown_title(fileName)
+                                filePath = os.path.join(os.path.relpath(path, docsDirPath), fileItem)
+                                directory[dn].append({fileTitle: filePath})
+
+                        if len(directory[dn]) == 0 or directory[dn] == [{}]:
+                            del directory[dn]
+
+                        return directory
+
+                navYaml = navFromDir(docsDirPath)
+                if navYaml:
+                    self.navYaml["nav"] = navYaml[os.path.basename(docsDirPath)]
+
         except OSError:
             log.critical(
                 "[mkdocs-monorepo] The file path {} does not exist, ".format(self.absNavPath) +
