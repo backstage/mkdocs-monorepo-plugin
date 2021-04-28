@@ -102,6 +102,7 @@ teardown() {
   [[ "$output" == *'<a href="#" class="dropdown-item">Small small</a>'* ]]
   # Check if Title names are generated correctly by using the markdown header
   [[ "$output" == *'<a href="small-small/test/" class="dropdown-item">Hello</a>'* ]]
+}
 
 @test "builds a mkdocs site with docs_dir differently specified in mkdocs.yml" {
   cd ${fixturesDir}/ok-different-docs-dir
