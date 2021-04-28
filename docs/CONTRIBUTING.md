@@ -157,5 +157,7 @@ $ PYTHON_37_ONLY=1 ./__tests__/test-local.sh
 
 Feel free to open up a PR and share why you think this change is valuable (unless it's something obvious, like a typo or confirmed bug). Assuming it is a change that is wanted, a maintainer will take a look to see if there's any changes needed.
 
+To make a new release, make sure to update the version in `setup.py` and add a new entry in the [CHANGELOG.md](CHANGELOG.md).
+
 [mkdocs material]: https://squidfunk.github.io/mkdocs-material/
 [github actions]: https://github.com/features/actions

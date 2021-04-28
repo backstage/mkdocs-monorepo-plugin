@@ -102,6 +102,19 @@ teardown() {
   [[ "$output" == *'<a href="#" class="dropdown-item">Small small</a>'* ]]
   # Check if Title names are generated correctly by using the markdown header
   [[ "$output" == *'<a href="small-small/test/" class="dropdown-item">Hello</a>'* ]]
+
+@test "builds a mkdocs site with docs_dir differently specified in mkdocs.yml" {
+  cd ${fixturesDir}/ok-different-docs-dir
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-different-docs-dir/project-a fixture."* ]]
+}
+
+@test "builds a mkdocs site with different config file than mkdocs.yml" {
+  cd ${fixturesDir}/ok-different-config-name
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-different-config-name/project-a fixture."* ]]
 }
 
 @test "builds a mkdocs site with site_name containing slash" {

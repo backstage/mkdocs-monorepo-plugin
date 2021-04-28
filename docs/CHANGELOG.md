@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.14
+
+- Now respects the `docs_dir` config in `mkdocs.yml` (#44)
+
+## 0.4.13
+
+- Allow other plugins to manipulate the source directory (#42)
+
+## 0.4.12
+
+- Allow any config file name and not just `mkdocs.yml` (#36)
+
 ## 0.4.11
 
 - Moved repository to the Backstage organization

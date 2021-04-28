@@ -51,23 +51,20 @@ class Parser:
         return paths
 
     def getResolvedPaths(self):
-        def removeMkdocsYmlFromPath(path):
-            rootDir = os.path.normpath(os.path.join(
-                os.getcwd(), self.config['config_file_path'], '../'))
-            absPath = os.path.normpath(os.path.join(
-                rootDir, re.sub(r'\/mkdocs.yml$', '', path, re.IGNORECASE)))
-            return absPath
-
+        """Return list of [alias, docs_dir, mkdocs.yml]."""
         def extractAliasAndPath(absPath):
-            return [IncludeNavLoader(self.config, absPath).read().getAlias(), removeMkdocsYmlFromPath(absPath)]
+            loader = IncludeNavLoader(self.config, absPath).read()
+            alias = loader.getAlias()
+            docsDir = os.path.join(loader.rootDir, os.path.dirname(absPath), loader.getDocsDir())
+            return [alias, docsDir, os.path.join(loader.rootDir, absPath)]
 
         resolvedPaths = list(
             map(extractAliasAndPath, self.__loadAliasesAndResolvedPaths()))
 
-        for alias, resolvedPath in resolvedPaths:
-            if not os.path.exists(resolvedPath):
+        for alias, docsDir, ymlPath in resolvedPaths:
+            if not os.path.exists(docsDir):
                 log.critical(
-                    "[mkdocs-monorepo] The {} path is not valid. ".format(resolvedPath) +
+                    "[mkdocs-monorepo] The {} path is not valid. ".format(docsDir) +
                     "Please update your 'nav' with a valid path.")
                 raise SystemExit(1)
 
@@ -120,9 +117,9 @@ class IncludeNavLoader:
         return self.absNavPath
 
     def read(self):
-        if not self.absNavPath.endswith("mkdocs.yml"):
+        if not self.absNavPath.endswith(".yml"):
             log.critical(
-                "[mkdocs-monorepo] The included file path {} does not point to a mkdocs.yml".format(
+                "[mkdocs-monorepo] The included file path {} does not point to a .yml file".format(
                     self.absNavPath)
             )
             raise SystemExit(1)
@@ -203,6 +200,9 @@ class IncludeNavLoader:
             raise SystemExit(1)
 
         return self
+
+    def getDocsDir(self):
+        return self.navYaml.get("docs_dir", "docs")
 
     def getAlias(self):
         alias = self.navYaml["site_name"]
