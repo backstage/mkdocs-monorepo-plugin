@@ -97,11 +97,11 @@ teardown() {
   cd ${fixturesDir}/ok-include-path-no-nav
   assertSuccessMkdocs build
   assertFileExists site/test/index.html
-  [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-path-no-nav/project-a fixture."* ]]
   # Check if directory names are formatted correctly
-  [[ "$output" == *'<a href="#" class="dropdown-item">Small small</a>'* ]]
+  [[ "$output" == *"Small small"* ]]
   # Check if Title names are generated correctly by using the markdown header
-  [[ "$output" == *'<a href="small-small/test/" class="dropdown-item">Hello</a>'* ]]
+  [[ "$output" == *"OkIncludePathNoNavProjectATestPage"* ]]
 }
 
 @test "builds a mkdocs site with docs_dir differently specified in mkdocs.yml" {
