@@ -8,7 +8,4 @@ plugins:
 
 nav:
   - Home: "index.md"
-  - Subnav:
-    - index.md
-    - index.md
   - Hello: "!include project-a/mkdocs.yml"
