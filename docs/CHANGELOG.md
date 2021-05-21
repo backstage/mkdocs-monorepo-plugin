@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.15
+
+- Allow automatic `nav` generation if `docs_dir` is specified in the sub-docs `mkdocs.yml` file (#35)
+
 ## 0.4.14
 
 - Now respects the `docs_dir` config in `mkdocs.yml` (#44)
