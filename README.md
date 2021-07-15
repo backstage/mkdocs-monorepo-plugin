@@ -148,7 +148,9 @@ $ tree ./site
 
 ## License
 
-Released under the Apache 2.0 License. See [here](./LICENSE) for more details.
+Copyright 2020-2021 © The Backstage Authors. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our Trademark Usage page: https://www.linuxfoundation.org/trademark-usage
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
 ## Contributing
 
