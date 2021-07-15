@@ -141,10 +141,21 @@ $ tree ./site
 13 directories, 28 files
 ```
 
+### Release
+
+1. Update the [Changelog](https://github.com/backstage/mkdocs-monorepo-plugin/blob/main/README.md#changelog).
+2. Bump up the version number in `setup.py` which triggers the release workflow on [GitHub Actions](.github/workflows/deploy.yml) to publish a new version in PyPI.
+
 ## Supported Versions
 
 - Python 3 &mdash; 3.5, 3.6, 3.7
 - [Mkdocs] 1.0.4 and above.
+
+## Changelog
+
+### 0.4.3
+
+- First release
 
 ## License
 
