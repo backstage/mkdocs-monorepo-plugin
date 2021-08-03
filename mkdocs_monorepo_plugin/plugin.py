@@ -64,15 +64,25 @@ class MonorepoPlugin(BasePlugin):
         return page
 
     def on_serve(self, server, config, **kwargs):
-        buildfunc = list(server.watcher._tasks.values())[0]['func']
+        # Support mkdocs < 1.2
+        if hasattr(server, 'watcher'):
+            buildfunc = list(server.watcher._tasks.values())[0]['func']
 
-        # still watch the original docs/ directory
-        server.watch(self.originalDocsDir, buildfunc)
+            # still watch the original docs/ directory
+            server.watch(self.originalDocsDir, buildfunc)
 
-        # watch all the sub docs/ folders
-        for _, docs_dir, yaml_file in self.resolvedPaths:
-            server.watch(yaml_file, buildfunc)
-            server.watch(docs_dir, buildfunc)
+            # watch all the sub docs/ folders
+            for _, docs_dir, yaml_file in self.resolvedPaths:
+                server.watch(yaml_file, buildfunc)
+                server.watch(docs_dir, buildfunc)
+        else:
+            # still watch the original docs/ directory
+            server.watch(self.originalDocsDir)
+
+            # watch all the sub docs/ folders
+            for _, docs_dir, yaml_file in self.resolvedPaths:
+                server.watch(yaml_file)
+                server.watch(docs_dir)
 
     def post_build(self, config):
         self.merger.cleanup()
