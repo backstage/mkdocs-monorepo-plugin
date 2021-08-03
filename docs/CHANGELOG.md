@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.16
+
+- Fix `mkdocs serve` incompatibility when running with mkdocs >= 1.2
+
 ## 0.4.15
 
 - Allow automatic `nav` generation if `docs_dir` is specified in the sub-docs `mkdocs.yml` file (#35)
