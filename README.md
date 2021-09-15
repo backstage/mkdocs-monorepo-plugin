@@ -143,7 +143,7 @@ $ tree ./site
 
 ### Release
 
-1. Update the [Changelog](https://github.com/backstage/mkdocs-monorepo-plugin/blob/main/README.md#changelog).
+1. Update the [CHANGELOG.md](./docs/CHANGELOG.md).
 2. Bump up the version number in `setup.py` which triggers the release workflow on [GitHub Actions](.github/workflows/deploy.yml) to publish a new version in PyPI.
 
 ## Supported Versions
@@ -153,9 +153,7 @@ $ tree ./site
 
 ## Changelog
 
-### 0.4.3
-
-- First release
+Check out our [CHANGELOG.md](./docs/CHANGELOG.md) for details.
 
 ## License
 
