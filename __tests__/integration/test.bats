@@ -121,7 +121,7 @@ teardown() {
 @test "builds a mkdocs site with site_name containing slash" {
   cd ${fixturesDir}/ok-nested-site-name-contains-slash
   assertSuccessMkdocs build
-  assertFileExists site/plugins/example-Folder/index.html
+  assertFileExists site/plugins-example-folder/index.html
   [[ "$output" == *"This contains a sentence which only exists in the ok-nested-site-name-contains-slash/project-a fixture."* ]]
 }
 
@@ -139,6 +139,11 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok-mkdocs-git-revision-date-localized-plugin/project-a fixture."* ]]
 }
 
+@test "builds a mkdocs even if !include path has site_name containing spaces" {
+  cd ${fixturesDir}/error-include-path-site-name-contains-space
+  assertSuccessMkdocs build
+}
+
 @test "fails if !include path is above current folder" {
   cd ${fixturesDir}/error-include-path-is-parent
   assertFailedMkdocs build
@@ -149,12 +154,6 @@ teardown() {
   cd ${fixturesDir}/error-include-path-contains-include
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] We currently do not support nested !include statements inside of Mkdocs."* ]]
-}
-
-@test "fails if !include path has site_name containing spaces" {
-  cd ${fixturesDir}/error-include-path-site-name-contains-space
-  assertFailedMkdocs build
-  [[ "$output" == *"[mkdocs-monorepo] Site name can only contain letters, numbers, underscores, hyphens and forward-slashes. The regular expression we test against is '^[a-zA-Z0-9_\-/]+$'."* ]]
 }
 
 @test "fails if !include paths contains duplicate site_name values" {
