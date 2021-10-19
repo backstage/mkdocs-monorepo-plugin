@@ -15,6 +15,7 @@
 import logging
 import os
 import copy
+import re
 
 from slugify import slugify
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
@@ -205,7 +206,13 @@ class IncludeNavLoader:
         return self.navYaml.get("docs_dir", "docs")
 
     def getAlias(self):
-        return slugify(self.navYaml["site_name"])
+        alias = self.navYaml["site_name"]
+        regex = '^[a-zA-Z0-9_\-/]+$'  # noqa: W605
+
+        if re.match(regex, alias) is None:
+            alias = slugify(self.navYaml["site_name"])
+
+        return alias
 
     def getNav(self):
         return self._prependAliasToNavLinks(self.getAlias(), self.navYaml["nav"])
