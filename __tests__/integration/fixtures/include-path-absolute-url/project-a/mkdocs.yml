@@ -9,5 +9,4 @@ nav:
   - 'http fqdn': "http://www.absoluteurl.nl"
   - 'https fqdn': "https://www.absoluteurl.nl/sub/dir"
   - 'ftp fqdn': "ftp://ftp.absoluteurl.nl"
-  - 'http not a fqdn ': "x http:/www.not-supported-absoluteurl.nl"
   
