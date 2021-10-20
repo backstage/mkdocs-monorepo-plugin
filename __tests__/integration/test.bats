@@ -198,7 +198,7 @@ teardown() {
 
   assertFileContains './site/index.html' 'href="http://www.absoluteurl.nl"'
   assertFileContains './site/index.html' 'href="https://www.absoluteurl.nl/sub/dir"'
-  assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl.nl/"'
+  assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl.nl"'
   assertFileContains './site/index.html' 'href="test/x http:/www.not-supported-absoluteurl.nl"'
 
   assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl-root.nl"'
