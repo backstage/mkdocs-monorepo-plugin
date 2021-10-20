@@ -192,7 +192,7 @@ teardown() {
   [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-no-nav-no-docs/project-a/mkdocs.yml does not contain a valid 'nav' key in the YAML file. Please include it to indicate how your documentation should be presented in the navigation."* ]]
 }
 
-@test "Tests resulting html has untouched supported protocols for FQDN." {
+@test "fails if absolute links aren't supported" {
   cd ${fixturesDir}/include-path-absolute-url
   assertSuccessMkdocs build
 
