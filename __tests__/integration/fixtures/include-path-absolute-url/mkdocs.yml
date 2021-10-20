@@ -12,4 +12,4 @@ nav:
     - index.md
     - index.md
   - Hello: "!include project-a/mkdocs.yml"
-  - 'ftp not supported protocol': "ftp://ftp.not-supported-absoluteurl-in-root.nl"
+  - 'ftp fqdn': "ftp://ftp.absoluteurl-root.nl"
