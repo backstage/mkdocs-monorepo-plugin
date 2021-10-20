@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.17
+
+- Fixed bug where URLs in an included `mkdocs.yml` were prefixed by the `site_name` and thus did not support absolute URLs.
+
 ## 0.4.16
 
 - Fix `mkdocs serve` incompatibility when running with mkdocs >= 1.2
