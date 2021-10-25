@@ -18,6 +18,7 @@ import copy
 import re
 
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
+from urllib.parse import urlsplit
 log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
 
@@ -239,10 +240,18 @@ class IncludeNavLoader:
                         "[mkdocs-monorepo] We currently do not support nested !include statements inside of Mkdocs.")
                     raise SystemExit(1)
 
+                def formatNavLink(alias, value):
+                    scheme, netloc, path, query, fragment = urlsplit(value)
+                    # true if the value is an absolute link
+                    if scheme or netloc:
+                        return "{}".format(value)
+                    else:
+                        return "{}/{}".format(alias, value)
+
                 if key is None:
-                    nav[index] = "{}/{}".format(alias, value)
+                    nav[index] = formatNavLink(alias, value)
                 else:
-                    nav[index][key] = "{}/{}".format(alias, value)
+                    nav[index][key] = formatNavLink(alias, value)
 
             elif type(value) == list:
                 nav[index] = {}
