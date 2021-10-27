@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.18
+
+- Allow inclusion of sub-docs `mkdocs.yml` even if its name isn't URL-friendly.
+  Works by slugifying non-URL friendly names. (#58)
+
 ## 0.4.16
 
 - Fix `mkdocs serve` incompatibility when running with mkdocs >= 1.2
