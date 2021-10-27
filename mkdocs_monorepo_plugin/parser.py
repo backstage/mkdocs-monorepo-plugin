@@ -17,6 +17,7 @@ import os
 import copy
 import re
 
+from slugify import slugify
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
 from urllib.parse import urlsplit
 log = logging.getLogger(__name__)
@@ -210,10 +211,7 @@ class IncludeNavLoader:
         regex = '^[a-zA-Z0-9_\-/]+$'  # noqa: W605
 
         if re.match(regex, alias) is None:
-            log.critical(
-                "[mkdocs-monorepo] Site name can only contain letters, numbers, underscores, hyphens and forward-slashes. " +
-                "The regular expression we test against is '{}'.".format(regex))
-            raise SystemExit(1)
+            alias = slugify(self.navYaml["site_name"])
 
         return alias
 
