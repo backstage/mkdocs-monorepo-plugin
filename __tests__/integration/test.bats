@@ -29,6 +29,11 @@ assertFileExists() {
   [ "$status" -eq 0 ]
 }
 
+assertFileContains() {
+  run grep $2 $1
+  [ "$status" -eq 0 ]
+}
+
 assertSuccessMkdocs() {
   run mkdocs $@
   debugger
@@ -184,4 +189,17 @@ teardown() {
   cd ${fixturesDir}/error-no-nav-no-docs
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-no-nav-no-docs/project-a/mkdocs.yml does not contain a valid 'nav' key in the YAML file. Please include it to indicate how your documentation should be presented in the navigation."* ]]
+}
+
+@test "fails if absolute links aren't supported" {
+  cd ${fixturesDir}/include-path-absolute-url
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="http://www.absoluteurl.nl"'
+  assertFileContains './site/index.html' 'href="https://www.absoluteurl.nl/sub/dir"'
+  assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl.nl"'
+  
+  assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl-root.nl"'
+
+  [ "$status" -eq 0 ]
 }

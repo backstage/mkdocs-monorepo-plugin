@@ -1,0 +1,15 @@
+site_name: "Example"
+site_description: "Description Here"
+
+docs_dir: ./docs
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: "index.md"
+  - Subnav:
+    - index.md
+    - index.md
+  - Hello: "!include project-a/mkdocs.yml"
+  - 'ftp fqdn': "ftp://ftp.absoluteurl-root.nl"
