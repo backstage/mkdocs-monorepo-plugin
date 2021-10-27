@@ -140,7 +140,7 @@ teardown() {
 }
 
 @test "builds a mkdocs even if !include path has site_name containing spaces" {
-  cd ${fixturesDir}/error-include-path-site-name-contains-space
+  cd ${fixturesDir}/ok-include-path-site-name-contains-space
   assertSuccessMkdocs build
 }
 
