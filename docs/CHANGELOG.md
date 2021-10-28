@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+- Allow `mkdocs.yaml` in addition to `mkdocs.yml`
+- Drops support for Python 3.5 (because the minimum `mkdocs` version which
+  supports the above feature no longer supports it).
+
 ## 0.4.18
 
 - Allow inclusion of sub-docs `mkdocs.yml` even if its name isn't URL-friendly.
