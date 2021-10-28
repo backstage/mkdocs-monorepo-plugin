@@ -93,6 +93,13 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
+@test "builds a mkdocs site with yaml extension" {
+  cd ${fixturesDir}/ok-yaml-not-yml
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-yaml-not-yml fixture."* ]]
+}
+
 @test "builds a mkdocs site if !include path does not contain nav" {
   cd ${fixturesDir}/ok-include-path-no-nav
   assertSuccessMkdocs build
