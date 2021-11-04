@@ -28,6 +28,7 @@ class MonorepoPlugin(BasePlugin):
     def on_config(self, config):
         # If no 'nav' defined, we don't need to run.
         if not config.get('nav'):
+            self.originalDocsDir = config['docs_dir']
             return config
 
         # Handle !import statements
