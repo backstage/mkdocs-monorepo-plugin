@@ -197,7 +197,8 @@ class IncludeNavLoader:
             log.critical(
                 "[mkdocs-monorepo] The file path {} ".format(self.absNavPath) +
                 "does not contain a valid 'nav' key in the YAML file. " +
-                "Please include it to indicate how your documentation should be presented in the navigation."
+                "Please include it to indicate how your documentation should be presented in the navigation, " +
+                "or include a 'docs_dir' to indicate that automatic nav generation should be used."
             )
             raise SystemExit(1)
 
