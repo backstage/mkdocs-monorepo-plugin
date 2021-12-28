@@ -16,6 +16,7 @@ import logging
 import os
 import copy
 import re
+import glob
 
 from slugify import slugify
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
@@ -24,6 +25,7 @@ log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
 
 INCLUDE_STATEMENT = "!include "
+WILDCARD_INCLUDE_STATEMENT = "*include "
 
 
 class Parser:
@@ -41,7 +43,19 @@ class Parser:
             if type(item) is str:
                 value = str
             elif type(item) is dict:
+                key = list(item.keys())[0]
                 value = list(item.values())[0]
+                if key.startswith(WILDCARD_INCLUDE_STATEMENT):
+                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
+                    key = " ".join(name)
+                    dirs = sorted(glob.glob(base_path))
+                    if dirs:
+                        value = []
+                        for dir in dirs:
+                            site = {}
+                            if os.path.exists(f"{dir}/mkdocs.yml"):
+                                site[dir] = f"{INCLUDE_STATEMENT}{dir}/mkdocs.yml"
+                                value.append(site)
             else:
                 value = None
 
@@ -49,7 +63,6 @@ class Parser:
                 paths.append(value[len(INCLUDE_STATEMENT):])
             elif type(value) is list:
                 paths.extend(self.__loadAliasesAndResolvedPaths(value))
-
         return paths
 
     def getResolvedPaths(self):
@@ -62,14 +75,12 @@ class Parser:
 
         resolvedPaths = list(
             map(extractAliasAndPath, self.__loadAliasesAndResolvedPaths()))
-
         for alias, docsDir, ymlPath in resolvedPaths:
             if not os.path.exists(docsDir):
                 log.critical(
                     "[mkdocs-monorepo] The {} path is not valid. ".format(docsDir) +
                     "Please update your 'nav' with a valid path.")
                 raise SystemExit(1)
-
         return resolvedPaths
 
     def resolve(self, nav=None):
@@ -83,6 +94,29 @@ class Parser:
             elif type(item) is dict:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
+                if key.startswith(WILDCARD_INCLUDE_STATEMENT):
+                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
+                    key = " ".join(name)
+
+                    dirs = sorted(glob.glob(base_path))
+
+                    if dirs:
+                        value = []
+                        for dir in dirs:
+                            site = {}
+                            try:
+                                with open(f"{dir}/mkdocs.yml", 'rb') as f:
+                                    site_yaml = yaml_load(f)
+                                    site_name = site_yaml["site_name"]
+                                site[site_name] = f"{INCLUDE_STATEMENT}{dir}/mkdocs.yml"
+                                value.append(site)
+                            except OSError as e:
+                                log.error(f"[mkdocs-monorepo] The {dir}/mkdocs.yml path is not valid.")
+                        # If not able to load mkdocs.yml from any of the directories
+                        if not value:
+                            return None
+                    else:
+                        return None
             else:
                 key = None
                 value = None
@@ -102,7 +136,6 @@ class Parser:
 
                 if nav[index][key] is None:
                     return None
-
         return nav
 
 
