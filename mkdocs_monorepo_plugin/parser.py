@@ -75,12 +75,14 @@ class Parser:
 
         resolvedPaths = list(
             map(extractAliasAndPath, self.__loadAliasesAndResolvedPaths()))
+
         for alias, docsDir, ymlPath in resolvedPaths:
             if not os.path.exists(docsDir):
                 log.critical(
                     "[mkdocs-monorepo] The {} path is not valid. ".format(docsDir) +
                     "Please update your 'nav' with a valid path.")
                 raise SystemExit(1)
+
         return resolvedPaths
 
     def resolve(self, nav=None):
@@ -136,6 +138,7 @@ class Parser:
 
                 if nav[index][key] is None:
                     return None
+
         return nav
 
 
