@@ -63,6 +63,7 @@ class Parser:
                 paths.append(value[len(INCLUDE_STATEMENT):])
             elif type(value) is list:
                 paths.extend(self.__loadAliasesAndResolvedPaths(value))
+
         return paths
 
     def getResolvedPaths(self):
