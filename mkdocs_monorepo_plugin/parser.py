@@ -120,7 +120,6 @@ class Parser:
                             try:
                                 with open(mkdocs_config, 'rb') as f:
                                     site_yaml = yaml_load(f)
-                                    # TODO add error checking
                                     site_name = site_yaml["site_name"]
                                 site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
                                 value.append(site)
