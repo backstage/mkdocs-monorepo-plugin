@@ -156,6 +156,27 @@ teardown() {
   assertSuccessMkdocs build
 }
 
+@test "builds a mkdocs site with single *include" {
+  cd ${fixturesDir}/ok-include-wildcard
+  assertSuccessMkdocs build
+  assertFileExists site/test-a/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-a fixture."* ]]
+  assertFileExists site/test-b/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-b fixture."* ]]
+}
+
+@test "builds a mkdocs site from a different folder with wildcard include" {
+  cd ${fixturesDir}
+  run mkdocs build --config-file=ok-include-wildcard/mkdocs.yml
+  debugger
+  run cat ok-include-wildcard/site/index.html
+  [[ "$output" == *"Lorem markdownum aequora Famemque"* ]]
+  run cat ok-include-wildcard/site/test-a/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-a fixture."* ]]
+  run cat ok-include-wildcard/site/test-b/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-b fixture."* ]]
+}
+
 @test "fails if !include path is above current folder" {
   cd ${fixturesDir}/error-include-path-is-parent
   assertFailedMkdocs build
@@ -205,8 +226,20 @@ teardown() {
   assertFileContains './site/index.html' 'href="http://www.absoluteurl.nl"'
   assertFileContains './site/index.html' 'href="https://www.absoluteurl.nl/sub/dir"'
   assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl.nl"'
-  
+
   assertFileContains './site/index.html' 'href="ftp://ftp.absoluteurl-root.nl"'
 
   [ "$status" -eq 0 ]
+}
+
+@test "fails if *include path is does not specify a path or title" {
+  cd ${fixturesDir}/error-include-wildcard-incomplete-statement
+  assertFailedMkdocs build
+  [[ "$output" == *"[mkdocs-monorepo] The wildcard include statement '*include ' does not include a path."* ]]
+}
+
+@test "fails if !include path from a wildcard include does not contain site_name" {
+  cd ${fixturesDir}/error-include-wildcard-no-site-name
+  assertFailedMkdocs build
+  [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-include-wildcard-no-site-name/projects/project-a/mkdocs.yml does not contain a valid 'site_name' key in the YAML file. Please include it to indicate where your documentation should be moved to."* ]]
 }

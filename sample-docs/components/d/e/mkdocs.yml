@@ -1,0 +1,4 @@
+site_name: Component E
+
+nav:
+  - Home: "README.md"

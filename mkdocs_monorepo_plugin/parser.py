@@ -16,7 +16,7 @@ import logging
 import os
 import copy
 import re
-import glob
+from pathlib import Path
 
 from slugify import slugify
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
@@ -46,16 +46,18 @@ class Parser:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
                 if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
-                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
-                    key = " ".join(name)
+                    root_dir = Path(self.config['config_file_path']).parent
                     mkdocs_path = value[len(INCLUDE_STATEMENT):]
-                    dirs = sorted(glob.glob(f"{base_path}/{mkdocs_path}", recursive=True))
+                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
+                    search_path = Path(base_path) / mkdocs_path
+                    key = " ".join(name)
+                    dirs = sorted(root_dir.glob(str(search_path)))
                     if dirs:
                         value = []
                         for mkdocs_config in dirs:
                             site = {}
                             if os.path.exists(mkdocs_config):
-                                site[mkdocs_config] = f"{INCLUDE_STATEMENT}{mkdocs_config}"
+                                site[str(mkdocs_config)] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
                                 value.append(site)
             else:
                 value = None
@@ -99,10 +101,18 @@ class Parser:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
                 if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
-                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
-                    key = " ".join(name)
+                    root_dir = Path(self.config['config_file_path']).parent
                     mkdocs_path = value[len(INCLUDE_STATEMENT):]
-                    dirs = sorted(glob.glob(f"{base_path}/{mkdocs_path}", recursive=True))
+                    try:
+                        base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
+                    except ValueError:
+                        log.critical(
+                            "[mkdocs-monorepo] The wildcard include statement '{}' does not include a path. ".format(key)
+                        )
+                        raise SystemExit(1)
+                    search_path = Path(base_path) / mkdocs_path
+                    key = " ".join(name)
+                    dirs = sorted(root_dir.glob(str(search_path)))
                     if dirs:
                         value = []
                         for mkdocs_config in dirs:
@@ -110,12 +120,19 @@ class Parser:
                             try:
                                 with open(mkdocs_config, 'rb') as f:
                                     site_yaml = yaml_load(f)
+                                    # TODO add error checking
                                     site_name = site_yaml["site_name"]
-                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config}"
+                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
                                 value.append(site)
-                            except OSError as e:
+                            except OSError:
                                 log.error(f"[mkdocs-monorepo] The {mkdocs_config} path is not valid.")
-                        # If not able to load mkdocs.yml from any of the directories
+                            except KeyError:
+                                log.critical(
+                                    "[mkdocs-monorepo] The file path {} does not contain a valid 'site_name' key ".format(mkdocs_config) +
+                                    "in the YAML file. Please include it to indicate where your documentation " +
+                                    "should be moved to."
+                                )
+                                raise SystemExit(1)
                         if not value:
                             return None
                     else:
