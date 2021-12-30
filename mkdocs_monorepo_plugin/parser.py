@@ -45,16 +45,17 @@ class Parser:
             elif type(item) is dict:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
-                if key.startswith(WILDCARD_INCLUDE_STATEMENT):
+                if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
                     base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
                     key = " ".join(name)
-                    dirs = sorted(glob.glob(base_path))
+                    mkdocs_path = value[len(INCLUDE_STATEMENT):]
+                    dirs = sorted(glob.glob(f"{base_path}/{mkdocs_path}", recursive=True))
                     if dirs:
                         value = []
-                        for dir in dirs:
+                        for mkdocs_config in dirs:
                             site = {}
-                            if os.path.exists(f"{dir}/mkdocs.yml"):
-                                site[dir] = f"{INCLUDE_STATEMENT}{dir}/mkdocs.yml"
+                            if os.path.exists(mkdocs_config):
+                                site[mkdocs_config] = f"{INCLUDE_STATEMENT}{mkdocs_config}"
                                 value.append(site)
             else:
                 value = None
@@ -97,24 +98,23 @@ class Parser:
             elif type(item) is dict:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
-                if key.startswith(WILDCARD_INCLUDE_STATEMENT):
+                if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
                     base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
                     key = " ".join(name)
-
-                    dirs = sorted(glob.glob(base_path))
-
+                    mkdocs_path = value[len(INCLUDE_STATEMENT):]
+                    dirs = sorted(glob.glob(f"{base_path}/{mkdocs_path}", recursive=True))
                     if dirs:
                         value = []
-                        for dir in dirs:
+                        for mkdocs_config in dirs:
                             site = {}
                             try:
-                                with open(f"{dir}/mkdocs.yml", 'rb') as f:
+                                with open(mkdocs_config, 'rb') as f:
                                     site_yaml = yaml_load(f)
                                     site_name = site_yaml["site_name"]
-                                site[site_name] = f"{INCLUDE_STATEMENT}{dir}/mkdocs.yml"
+                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config}"
                                 value.append(site)
                             except OSError as e:
-                                log.error(f"[mkdocs-monorepo] The {dir}/mkdocs.yml path is not valid.")
+                                log.error(f"[mkdocs-monorepo] The {mkdocs_config} path is not valid.")
                         # If not able to load mkdocs.yml from any of the directories
                         if not value:
                             return None
