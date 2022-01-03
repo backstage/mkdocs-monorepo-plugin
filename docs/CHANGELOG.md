@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2
+- Add support for wildcard include statement
+
 ## 0.5.1
 
 - Fix `No module named 'slugify'` error when installing in mkdocs environments.
