@@ -43,15 +43,11 @@ class Parser:
             if type(item) is str:
                 value = str
             elif type(item) is dict:
-                key = list(item.keys())[0]
                 value = list(item.values())[0]
-                if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
+                if type(value) is str and value.startswith(WILDCARD_INCLUDE_STATEMENT):
                     root_dir = Path(self.config['config_file_path']).parent
-                    mkdocs_path = value[len(INCLUDE_STATEMENT):]
-                    base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
-                    search_path = Path(base_path) / mkdocs_path
-                    key = " ".join(name)
-                    dirs = sorted(root_dir.glob(str(search_path)))
+                    mkdocs_path = value[len(WILDCARD_INCLUDE_STATEMENT):]
+                    dirs = sorted(root_dir.glob(mkdocs_path))
                     if dirs:
                         value = []
                         for mkdocs_config in dirs:
@@ -100,19 +96,16 @@ class Parser:
             elif type(item) is dict:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
-                if key.startswith(WILDCARD_INCLUDE_STATEMENT) and value.startswith(INCLUDE_STATEMENT):
+                if type(value) is str and value.startswith(WILDCARD_INCLUDE_STATEMENT):
                     root_dir = Path(self.config['config_file_path']).parent
-                    mkdocs_path = value[len(INCLUDE_STATEMENT):]
-                    try:
-                        base_path, *name = key[len(WILDCARD_INCLUDE_STATEMENT):].split()
-                    except ValueError:
+                    mkdocs_path = value[len(WILDCARD_INCLUDE_STATEMENT):]
+                    if not mkdocs_path.endswith(tuple([".yml", ".yaml"])):
                         log.critical(
-                            "[mkdocs-monorepo] The wildcard include statement '{}' does not include a path. ".format(key)
+                            "[mkdocs-monorepo] The wildcard include path {} does not end with .yml (or .yaml)".format(
+                                mkdocs_path)
                         )
                         raise SystemExit(1)
-                    search_path = Path(base_path) / mkdocs_path
-                    key = " ".join(name)
-                    dirs = sorted(root_dir.glob(str(search_path)))
+                    dirs = sorted(root_dir.glob(mkdocs_path))
                     if dirs:
                         value = []
                         for mkdocs_config in dirs:

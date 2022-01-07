@@ -232,10 +232,10 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "fails if *include path is does not specify a path or title" {
-  cd ${fixturesDir}/error-include-wildcard-incomplete-statement
+@test "fails if *include path does not end in yml or yaml" {
+  cd ${fixturesDir}/error-include-wildcard-not-yml
   assertFailedMkdocs build
-  [[ "$output" == *"[mkdocs-monorepo] The wildcard include statement '*include ' does not include a path."* ]]
+  [[ "$output" == *"[mkdocs-monorepo] The wildcard include path ./projects/*/mkdocs.txt does not end with .yml (or .yaml)"* ]]
 }
 
 @test "fails if !include path from a wildcard include does not contain site_name" {
