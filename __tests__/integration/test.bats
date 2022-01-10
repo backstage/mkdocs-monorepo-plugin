@@ -165,6 +165,15 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-b fixture."* ]]
 }
 
+@test "builds a mkdocs site with recursive *include" {
+  cd ${fixturesDir}/ok-include-wildcard-recursive-glob
+  assertSuccessMkdocs build
+  assertFileExists site/test-a/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard-recursive-glob/projects/project-a fixture."* ]]
+  assertFileExists site/test-c/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard-recursive-glob/projects/subprojects/project-c fixture."* ]]
+}
+
 @test "builds a mkdocs site from a different folder with wildcard include" {
   cd ${fixturesDir}
   run mkdocs build --config-file=ok-include-wildcard/mkdocs.yml

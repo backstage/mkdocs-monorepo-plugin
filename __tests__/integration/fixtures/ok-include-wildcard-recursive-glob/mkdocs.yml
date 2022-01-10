@@ -11,4 +11,4 @@ nav:
   - Subnav:
     - index.md
     - index.md
-  - Projects: "*include ./my projects/*/mkdocs.yml"
+  - Projects: "*include ./projects/**/mkdocs.yml"
