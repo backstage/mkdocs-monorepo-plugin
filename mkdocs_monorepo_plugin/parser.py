@@ -16,6 +16,7 @@ import logging
 import os
 import copy
 import re
+from pathlib import Path
 
 from slugify import slugify
 from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
@@ -24,6 +25,7 @@ log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
 
 INCLUDE_STATEMENT = "!include "
+WILDCARD_INCLUDE_STATEMENT = "*include "
 
 
 class Parser:
@@ -42,6 +44,17 @@ class Parser:
                 value = str
             elif type(item) is dict:
                 value = list(item.values())[0]
+                if type(value) is str and value.startswith(WILDCARD_INCLUDE_STATEMENT):
+                    root_dir = Path(self.config['config_file_path']).parent
+                    mkdocs_path = value[len(WILDCARD_INCLUDE_STATEMENT):]
+                    dirs = sorted(root_dir.glob(mkdocs_path))
+                    if dirs:
+                        value = []
+                        for mkdocs_config in dirs:
+                            site = {}
+                            if os.path.exists(mkdocs_config):
+                                site[str(mkdocs_config)] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                value.append(site)
             else:
                 value = None
 
@@ -83,6 +96,39 @@ class Parser:
             elif type(item) is dict:
                 key = list(item.keys())[0]
                 value = list(item.values())[0]
+                if type(value) is str and value.startswith(WILDCARD_INCLUDE_STATEMENT):
+                    root_dir = Path(self.config['config_file_path']).parent
+                    mkdocs_path = value[len(WILDCARD_INCLUDE_STATEMENT):]
+                    if not mkdocs_path.endswith(tuple([".yml", ".yaml"])):
+                        log.critical(
+                            "[mkdocs-monorepo] The wildcard include path {} does not end with .yml (or .yaml)".format(
+                                mkdocs_path)
+                        )
+                        raise SystemExit(1)
+                    dirs = sorted(root_dir.glob(mkdocs_path))
+                    if dirs:
+                        value = []
+                        for mkdocs_config in dirs:
+                            site = {}
+                            try:
+                                with open(mkdocs_config, 'rb') as f:
+                                    site_yaml = yaml_load(f)
+                                    site_name = site_yaml["site_name"]
+                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                value.append(site)
+                            except OSError:
+                                log.error(f"[mkdocs-monorepo] The {mkdocs_config} path is not valid.")
+                            except KeyError:
+                                log.critical(
+                                    "[mkdocs-monorepo] The file path {} does not contain a valid 'site_name' key ".format(mkdocs_config) +
+                                    "in the YAML file. Please include it to indicate where your documentation " +
+                                    "should be moved to."
+                                )
+                                raise SystemExit(1)
+                        if not value:
+                            return None
+                    else:
+                        return None
             else:
                 key = None
                 value = None

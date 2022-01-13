@@ -1,0 +1,14 @@
+site_name: "Example"
+site_description: "Description Here"
+
+docs_dir: ./docs
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: "index.md"
+  - Subnav:
+    - index.md
+    - index.md
+  - Projects: "*include ./projects/*/mkdocs.txt"
