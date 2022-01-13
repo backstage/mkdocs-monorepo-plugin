@@ -141,6 +141,43 @@ $ tree ./site
 13 directories, 28 files
 ```
 
+Note that, as of `v0.5.2`, the `*include` syntax can be used in place of `!include` in order to compile any number of `mkdocs.yml` files that match a glob-like pattern, without having to specify every one individually. For example:
+
+
+```yaml
+# /mkdocs.yml
+site_name: Cats System
+
+nav:
+  - Intro: 'index.md'
+  - Components: '*include ./components/*/mkdocs.yml'
+```
+
+#### Example Source Filetree
+
+```terminal
+$ tree .
+
+├── components
+│   ├── belly-rubs
+│   │   ├── docs
+│   │   |   └── index.md
+│   │   └── mkdocs.yml
+|   ├── purring
+│   │   ├── docs
+│   │   |   └── index.md
+│   │   └── mkdocs.yml
+|   └── skritches
+│   │   ├── docs
+│   │   |   └── index.md
+│   │   └── mkdocs.yml
+├── docs
+│   └── index.md
+└── mkdocs.yml
+
+8 directories, 8 files
+```
+
 ### Release
 
 1. Update the [CHANGELOG.md](./docs/CHANGELOG.md).
