@@ -64,6 +64,11 @@ class MonorepoPlugin(BasePlugin):
         return page
 
     def on_serve(self, server, config, **kwargs):
+        # We didn't preprocess this repo / create a new docs directory
+        # so we don't need to watch the original docs dir.
+        if self.originalDocsDir is None:
+            return
+
         # Support mkdocs < 1.2
         if hasattr(server, 'watcher'):
             buildfunc = list(server.watcher._tasks.values())[0]['func']
