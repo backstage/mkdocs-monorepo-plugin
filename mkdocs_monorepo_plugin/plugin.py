@@ -70,26 +70,27 @@ class MonorepoPlugin(BasePlugin):
     def on_serve(self, server, config, **kwargs):
         # Watch extra files only if this plugin was actually initialized with
         # `on_config`
-        if self.originalDocsDir is not None:
-            # Support mkdocs < 1.2
-            if hasattr(server, 'watcher'):
-                buildfunc = list(server.watcher._tasks.values())[0]['func']
+        if self.originalDocsDir is None:
+            return
+        # Support mkdocs < 1.2
+        if hasattr(server, 'watcher'):
+            buildfunc = list(server.watcher._tasks.values())[0]['func']
 
-                # still watch the original docs/ directory
-                server.watch(self.originalDocsDir, buildfunc)
+            # still watch the original docs/ directory
+            server.watch(self.originalDocsDir, buildfunc)
 
-                # watch all the sub docs/ folders
-                for _, docs_dir, yaml_file in self.resolvedPaths:
-                    server.watch(yaml_file, buildfunc)
-                    server.watch(docs_dir, buildfunc)
-            else:
-                # still watch the original docs/ directory
-                server.watch(self.originalDocsDir)
+            # watch all the sub docs/ folders
+            for _, docs_dir, yaml_file in self.resolvedPaths:
+                server.watch(yaml_file, buildfunc)
+                server.watch(docs_dir, buildfunc)
+        else:
+            # still watch the original docs/ directory
+            server.watch(self.originalDocsDir)
 
-                # watch all the sub docs/ folders
-                for _, docs_dir, yaml_file in self.resolvedPaths:
-                    server.watch(yaml_file)
-                    server.watch(docs_dir)
+            # watch all the sub docs/ folders
+            for _, docs_dir, yaml_file in self.resolvedPaths:
+                server.watch(yaml_file)
+                server.watch(docs_dir)
 
     def post_build(self, config):
         self.merger.cleanup()
