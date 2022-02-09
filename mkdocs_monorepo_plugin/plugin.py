@@ -26,9 +26,14 @@ class MonorepoPlugin(BasePlugin):
         self.files_source_dir = {}
 
     def on_config(self, config):
+        """Initialize MonorepoPlugin and return config of aggregated docs
+        folder."""
         # If no 'nav' defined, we don't need to run.
         if not config.get('nav'):
             return config
+
+        # setting originalDocsDir means that on_config has been run
+        self.originalDocsDir = config['docs_dir']
 
         # Handle !import statements
         self.parser = Parser(config)
@@ -44,7 +49,6 @@ class MonorepoPlugin(BasePlugin):
         new_docs_dir = self.merger.merge()
 
         # Update the docs_dir with our temporary one!
-        self.originalDocsDir = config['docs_dir']
         config['docs_dir'] = new_docs_dir
 
         # Store resolved paths for later.
@@ -64,6 +68,10 @@ class MonorepoPlugin(BasePlugin):
         return page
 
     def on_serve(self, server, config, **kwargs):
+        # Watch extra files only if this plugin was actually initialized with
+        # `on_config`
+        if self.originalDocsDir is None:
+            return
         # Support mkdocs < 1.2
         if hasattr(server, 'watcher'):
             buildfunc = list(server.watcher._tasks.values())[0]['func']

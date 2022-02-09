@@ -5,6 +5,9 @@ echo "Running flake8 linter -------->"
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=setup.py
 flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=setup.py
 
+# Running unit-tests
+python3 -m unittest
+
 # End-to-end testing via Bats (Bash automated tests)
 function docker_run_integration_tests() {
 docker build -t mkdocs-monorepo-test-runner:$1 --quiet -f- . <<EOF
