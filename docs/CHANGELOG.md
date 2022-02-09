@@ -1,6 +1,11 @@
 # Changelog
 
+## 0.5.3
+
+- Don't run on_serve if on_config was skipped
+
 ## 0.5.2
+
 - Add support for wildcard include statement
 
 ## 0.5.1
