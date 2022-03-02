@@ -252,3 +252,14 @@ teardown() {
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-include-wildcard-no-site-name/projects/project-a/mkdocs.yml does not contain a valid 'site_name' key in the YAML file. Please include it to indicate where your documentation should be moved to."* ]]
 }
+
+@test "sets edit url for included pages" {
+  cd ${fixturesDir}/bug-include-path-edit-uri
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
+
+  [ "$status" -eq 0 ]
+}
