@@ -8,4 +8,5 @@ plugins:
 
 nav:
   - Home: "index.md"
+  - Other: "other.md"
   - API: "!include api/mkdocs.yml"

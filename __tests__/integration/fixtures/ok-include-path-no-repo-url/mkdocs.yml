@@ -1,0 +1,10 @@
+site_name: "Example"
+site_description: "Description Here"
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: "index.md"
+  - Other: "other.md"
+  - API: "!include api/mkdocs.yml"

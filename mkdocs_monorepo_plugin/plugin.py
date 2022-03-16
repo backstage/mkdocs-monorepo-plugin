@@ -15,7 +15,7 @@
 from mkdocs.plugins import BasePlugin
 from .parser import Parser
 from .merger import Merger
-from .helpers import is_index, set_edit_url
+from .edit_uri import set_edit_url
 
 
 class MonorepoPlugin(BasePlugin):
@@ -45,7 +45,9 @@ class MonorepoPlugin(BasePlugin):
 
         # Generate a new "docs" directory
         self.merger = Merger(config)
+        self.aliases = {}
         for alias, docs_dir, yaml_file in resolvedPaths:
+            self.aliases[alias] = { 'docs_dir': docs_dir, 'yaml_file': yaml_file }
             self.merger.append(alias, docs_dir)
         new_docs_dir = self.merger.merge()
 
@@ -66,8 +68,7 @@ class MonorepoPlugin(BasePlugin):
         if len(self.files_source_dir) > 0:
             if page.file.abs_src_path in self.files_source_dir:
                 page.file.abs_src_path = self.files_source_dir[page.file.abs_src_path]
-                if not is_index(page):
-                    set_edit_url(config, page, self)
+                set_edit_url(config, page, self)
         return page
 
     def on_serve(self, server, config, **kwargs):

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.4
+
+- Fixed edit URLs for included pages
+
 ## 0.5.3
 
 - Don't run on_serve if on_config was skipped
