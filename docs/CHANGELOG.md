@@ -1,8 +1,14 @@
 # Changelog
 
-## 0.5.4
+## 1.0.1
 
 - Fixed edit URLs for included pages
+
+## 1.0.0
+
+- This package has been promoted to v1.0!
+
+> **Note:** Going forward, this package will follow [semver](https://semver.org/#semantic-versioning-200) conventions.
 
 ## 0.5.3
 
