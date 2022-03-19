@@ -265,8 +265,6 @@ teardown() {
   assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
   assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
   assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
-
-  [ "$status" -eq 0 ]
 }
 
 @test "sets edit url for included wildcard pages" {
@@ -276,29 +274,41 @@ teardown() {
   assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
   assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
   assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
-
-  [ "$status" -eq 0 ]
 }
 
-@test "only set edit_uri for included paths if repo_url is configured" {
+@test "derive edit_uri from root for included paths" {
+  cd ${fixturesDir}/ok-include-path-no-edit-uri
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
+}
+
+@test "derive edit_uri from root for wildcard paths" {
+  cd ${fixturesDir}/ok-include-wildcard-no-edit-uri
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
+}
+
+@test "does not default to root edit_uri if it is not configured" {
   cd ${fixturesDir}/ok-include-path-no-repo-url
   assertSuccessMkdocs build
 
   assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
   assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
   assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
-
-  [ "$status" -eq 1 ]
 }
 
-@test "only set edit_uri for wildcard paths if repo_url is configured" {
+@test "does not default to root edit_uri if it is not configured" {
   cd ${fixturesDir}/ok-include-wildcard-no-repo-url
   assertSuccessMkdocs build
 
   assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
   assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
   assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
-
-  [ "$status" -eq 1 ]
 }
 

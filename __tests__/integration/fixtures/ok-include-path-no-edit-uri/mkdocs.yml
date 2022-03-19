@@ -1,0 +1,12 @@
+site_name: "Example"
+site_description: "Description Here"
+repo_url: https://github.com/backstage/mkdocs-monorepo-plugin
+edit_uri: edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: "index.md"
+  - Other: "other.md"
+  - API: "!include api/mkdocs.yml"

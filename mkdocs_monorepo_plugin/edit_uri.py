@@ -15,50 +15,6 @@
 from mkdocs.utils import yaml_load
 from os import path
 
-from urllib.parse import urlsplit
-
-def load_mkdocs_config(file, docs_dir):
-  config = yaml_load(file)
-
-  repo_url = config.get('repo_url')
-  repo_name = config.get('repo_name')
-  edit_uri = config.get('edit_uri')
-
-  # derive repo_name from repo_url if unset
-  if repo_url is not None and repo_name is None:
-    repo_host = urlsplit(repo_url).netloc.lower()
-    if repo_host == 'github.com':
-      repo_name = 'GitHub'
-    elif repo_host == 'bitbucket.org':
-      repo_name = 'Bitbucket'
-    elif repo_host == 'gitlab.com':
-      repo_name = 'GitLab'
-    else:
-      repo_name = repo_host.split('.')[0].title()
-
-  # derive edit_uri from repo_name if unset
-  if repo_name is not None and edit_uri is None:
-    if repo_name == 'GitHub' or repo_name == 'GitLab':
-      edit_uri = 'edit/master/docs/{}'.format(docs_dir)
-    elif repo_name == 'Bitbucket':
-      edit_uri = 'src/default/docs/{}'.format(docs_dir)
-    else:
-      edit_uri = ''
-
-  # ensure a well-formed edit_uri
-  if edit_uri:
-    if not edit_uri.startswith(('?', '#')) \
-      and not config['repo_url'].endswith('/'):
-        config['repo_url'] += '/'
-    if not edit_uri.endswith('/'):
-      edit_uri += '/'
-
-  config['docs_dir'] = docs_dir
-  config['edit_uri'] = edit_uri
-  config['repo_name'] = repo_name
-
-  return config
-
 class EditUrl:
   def __init__(self, config, page, plugin):
       self.config = config
@@ -94,16 +50,40 @@ class EditUrl:
   def __get_page_config_file_path(self):
     alias = self.__get_page_dir_alias()
     return self.plugin.aliases[alias]['yaml_file']
+  
+  def __load_page_config_file(self, file):
+    config = yaml_load(file)
+
+    root_docs_dir = self.__get_root_docs_dir()
+    root_repo_url = self.config.get('repo_url')
+    root_edit_uri = self.config.get('edit_uri', '')
+
+    page_docs_dir = self.__get_page_docs_dir()
+    page_repo_url = config.get('repo_url', root_repo_url)
+    page_edit_uri = config.get('edit_uri', root_edit_uri.replace(root_docs_dir, page_docs_dir))
+
+    # ensure a well-formed edit_uri
+    if page_edit_uri:
+      if not page_edit_uri.startswith(('?', '#')) \
+        and not page_repo_url.endswith('/'):
+          page_repo_url += '/'
+      if not page_edit_uri.endswith('/'):
+        page_edit_uri += '/'
+
+    config['docs_dir'] = page_docs_dir
+    config['edit_uri'] = page_edit_uri
+    config['repo_url'] = page_repo_url
+
+    return config
 
   def __get_page_config_file_yaml(self):
-    page_docs_dir = self.__get_page_docs_dir()
     abs_page_config_file_path = self.__get_page_config_file_path()
     with open(abs_page_config_file_path, 'rb') as f:
-      return load_mkdocs_config(f, page_docs_dir)
+      return self.__load_page_config_file(f)
 
   def __has_repo(self):
     page_config_file_yaml = self.__get_page_config_file_yaml()
-    return 'repo_url' in page_config_file_yaml
+    return bool(page_config_file_yaml.get('repo_url'))
 
   def __is_root(self):
     root_config_docs_dir = self.__get_root_docs_dir()
@@ -116,11 +96,9 @@ class EditUrl:
       return self.page.edit_url
     if self.__has_repo():
       config = self.__get_page_config_file_yaml()
-      self.config['repo_name'] = config['repo_name']
       return config['repo_url'] + config['edit_uri'] + self.__get_page_src_path()
-    return ''
+    return None
     
 def set_edit_url(config, page, plugin):
   edit_url = EditUrl(config, page, plugin)
   page.edit_url = edit_url.build()
-
