@@ -262,53 +262,53 @@ teardown() {
   cd ${fixturesDir}/ok-include-path-edit-uri
   assertSuccessMkdocs build
 
-  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
-  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/api/docs/other/other.md"'
 }
 
 @test "sets edit url for included wildcard pages" {
   cd ${fixturesDir}/ok-include-wildcard-edit-uri
   assertSuccessMkdocs build
 
-  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
-  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-edit-uri/projects/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-edit-uri/projects/api/docs/other/other.md"'
 }
 
 @test "derive edit_uri from root for included paths" {
   cd ${fixturesDir}/ok-include-path-no-edit-uri
   assertSuccessMkdocs build
 
-  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
-  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-edit-uri/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-edit-uri/api/docs/other/other.md"'
 }
 
 @test "derive edit_uri from root for wildcard paths" {
   cd ${fixturesDir}/ok-include-wildcard-no-edit-uri
   assertSuccessMkdocs build
 
-  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
-  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-edit-uri/docs/index.md"'
+  assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-edit-uri/projects/api/docs/index.md"'
+  assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-edit-uri/projects/api/docs/other/other.md"'
 }
 
 @test "does not default to root edit_uri if it is not configured" {
   cd ${fixturesDir}/ok-include-path-no-repo-url
   assertSuccessMkdocs build
 
-  assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/index.md"'
-  assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/api/docs/other/other.md"'
+  assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-repo-url/docs/index.md"'
+  assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-repo-url/api/docs/index.md"'
+  assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-repo-url/api/docs/other/other.md"'
 }
 
 @test "does not default to root edit_uri if it is not configured" {
   cd ${fixturesDir}/ok-include-wildcard-no-repo-url
   assertSuccessMkdocs build
 
-  assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/docs/index.md"'
-  assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/index.md"'
-  assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/other/other.md"'
+  assertFileNotContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-repo-url/docs/index.md"'
+  assertFileNotContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-repo-url/projects/api/docs/index.md"'
+  assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-repo-url/projects/api/docs/other/other.md"'
 }
 
