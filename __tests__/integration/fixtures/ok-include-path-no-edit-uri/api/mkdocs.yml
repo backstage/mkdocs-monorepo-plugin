@@ -1,0 +1,9 @@
+site_name: "test"
+site_description: "This is an api."
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: index.md
+  - Other: other/other.md

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- Fixed edit URLs for included pages
+
 ## 1.0.0
 
 - This package has been promoted to v1.0!
