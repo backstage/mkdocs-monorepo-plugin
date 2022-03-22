@@ -1,7 +1,7 @@
 site_name: "test"
 site_description: "This is an api."
 repo_url: https://github.com/backstage/mkdocs-monorepo-plugin
-edit_uri: edit/fix-edit-page-url/__tests__/integration/fixtures/bug-include-path-edit-uri/projects/api/docs/
+edit_uri: edit/master/__tests__/integration/fixtures/ok-include-wildcard-edit-uri/projects/api/docs/
 
 plugins:
   - monorepo
