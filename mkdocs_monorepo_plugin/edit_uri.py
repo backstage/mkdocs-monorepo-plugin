@@ -20,7 +20,7 @@ class EditUrl:
       self.config = config
       self.page = page
       self.plugin = plugin
-  
+
   def __get_root_config_file_path(self):
     return path.dirname(self.config['config_file_path'])
 
@@ -50,7 +50,7 @@ class EditUrl:
   def __get_page_config_file_path(self):
     alias = self.__get_page_dir_alias()
     return self.plugin.aliases[alias]['yaml_file']
-  
+
   def __load_page_config_file(self, file):
     config = yaml_load(file)
 
@@ -89,7 +89,8 @@ class EditUrl:
     root_config_docs_dir = self.__get_root_docs_dir()
     abs_root_config_file_dir = self.__get_root_config_file_path()
     abs_root_config_docs_dir = path.join(abs_root_config_file_dir, root_config_docs_dir)
-    return abs_root_config_docs_dir in self.page.file.abs_src_path
+
+    return path.realpath(abs_root_config_docs_dir) in self.page.file.abs_src_path
 
   def build(self):
     if self.__is_root():
@@ -98,7 +99,7 @@ class EditUrl:
       config = self.__get_page_config_file_yaml()
       return config['repo_url'] + config['edit_uri'] + self.__get_page_src_path()
     return None
-    
+
 def set_edit_url(config, page, plugin):
   edit_url = EditUrl(config, page, plugin)
   page.edit_url = edit_url.build()
