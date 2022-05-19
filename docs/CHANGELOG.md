@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2
+
+- Fixed edit URLs to use realpath of pages
 ## 1.0.1
 
 - Fixed edit URLs for included pages
