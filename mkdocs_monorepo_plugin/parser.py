@@ -185,8 +185,9 @@ class IncludeNavLoader:
 
             # This will check if there is a `docs_dir` property on the `mkdocs.yml` file of
             # the sub folder and scaffold the `nav` property from it
-            if self.navYaml and 'nav' not in self.navYaml and "docs_dir" in self.navYaml:
-                docsDirPath = os.path.join(os.path.dirname(self.absNavPath), self.navYaml["docs_dir"])
+            if self.navYaml and 'nav' not in self.navYaml:
+                docsDir = self.navYaml.get("docs_dir", "docs")
+                docsDirPath = os.path.join(os.path.dirname(self.absNavPath), docsDir)
 
                 def navFromDir(path):
                     directory = {}
@@ -242,8 +243,9 @@ class IncludeNavLoader:
         if self.navYaml and 'nav' not in self.navYaml:
             log.critical(
                 "[mkdocs-monorepo] The file path {} ".format(self.absNavPath) +
-                "does not contain a valid 'nav' key in the YAML file. " +
-                "Please include it to indicate how your documentation should be presented in the navigation, " +
+                "does not contain a valid 'nav' key in the YAML file " +
+                "and the docs folder is not the default one, i.e. `docs`. " +
+                "Please include the `nav` key to indicate how your documentation should be presented in the navigation, " +
                 "or include a 'docs_dir' to indicate that automatic nav generation should be used."
             )
             raise SystemExit(1)
