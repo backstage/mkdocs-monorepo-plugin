@@ -103,6 +103,13 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
+@test "builds a mkdocs site with no nav and no docs_dir key" {
+  cd ${fixturesDir}/ok-no-nav-no-dir
+  assertSuccessMkdocs build
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
+}
+
 @test "builds a mkdocs site with yaml extension" {
   cd ${fixturesDir}/ok-yaml-not-yml
   assertSuccessMkdocs build
@@ -225,12 +232,6 @@ teardown() {
   cd ${fixturesDir}/error-include-path-no-docs-folder
   assertFailedMkdocs build
   [[ "$output" == *"[mkdocs-monorepo] The /"*"/__tests__/integration/fixtures/error-include-path-no-docs-folder/project-a/docs path is not valid. Please update your 'nav' with a valid path."* ]]
-}
-
-@test "fails if !include path docs_dir does not contain any files" {
-  cd ${fixturesDir}/error-no-nav-no-docs
-  assertFailedMkdocs build
-  [[ "$output" == *"[mkdocs-monorepo] The file path /"*"/__tests__/integration/fixtures/error-no-nav-no-docs/project-a/mkdocs.yml does not contain a valid 'nav' key in the YAML file. Please include it to indicate how your documentation should be presented in the navigation, or include a 'docs_dir' to indicate that automatic nav generation should be used."* ]]
 }
 
 @test "fails if absolute links aren't supported" {
