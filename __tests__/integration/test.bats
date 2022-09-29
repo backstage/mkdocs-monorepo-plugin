@@ -304,7 +304,7 @@ teardown() {
   assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-no-repo-url/api/docs/other/other.md"'
 }
 
-@test "does not default to root edit_uri if it is not configured" {
+@test "does not default to root edit_uri if it is not configured for wildcard paths" {
   cd ${fixturesDir}/ok-include-wildcard-no-repo-url
   assertSuccessMkdocs build
 
