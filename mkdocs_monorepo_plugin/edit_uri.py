@@ -56,7 +56,7 @@ class EditUrl:
 
     root_docs_dir = self.__get_root_docs_dir()
     root_repo_url = self.config.get('repo_url')
-    root_edit_uri = self.config.get('edit_uri', '')
+    root_edit_uri = self.config.get('edit_uri', '') or ''
 
     page_docs_dir = self.__get_page_docs_dir()
     page_repo_url = config.get('repo_url', root_repo_url)
