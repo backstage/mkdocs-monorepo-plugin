@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+-   Resolve a bug that prevented this plugin from working with mkdocs >= v1.4.0
+
 ## 1.0.3
 
 -   Allow no specification for both ´nav´ and ´docs_dir´
