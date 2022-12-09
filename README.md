@@ -47,6 +47,8 @@ nav:
 plugins:
   - monorepo
 
+```
+```yaml
 # /src/v1/mkdocs.yml
 site_name: versions/v1
 
@@ -54,6 +56,8 @@ nav:
   - Reference: "reference.md"
   - Changelog: "changelog.md"
 
+```
+```yaml
 # /src/v2/mkdocs.yml
 site_name: versions/v2
 
