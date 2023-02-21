@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+-   Allow cross sub-docs reference in `nav`
+
 ## 1.0.4
 
 -   Resolve a bug that prevented this plugin from working with mkdocs >= v1.4.0

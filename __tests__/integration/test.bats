@@ -313,3 +313,9 @@ teardown() {
   assertFileNotContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-wildcard-no-repo-url/projects/api/docs/other/other.md"'
 }
 
+@test "builds a mkdocs site with cross-referencing from subsite" {
+  cd ${fixturesDir}/ok-cross-reference
+  assertSuccessMkdocs build
+  assertFileContains './site/index.html' 'Cross-referenced'
+}
+
