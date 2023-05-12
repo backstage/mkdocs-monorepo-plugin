@@ -4,4 +4,4 @@ metadata:
   name: mkdocs-monorepo-plugin
 spec:
   type: library
-  owner: pulp-fiction
+  owner: protean

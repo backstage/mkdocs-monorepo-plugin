@@ -12,12 +12,12 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3, 3.6, 3.7]
+        python-version: ["3", "3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@master
+        uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Bats
