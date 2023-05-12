@@ -27,6 +27,9 @@ if [[ ! -z "$PYTHON_37_ONLY" ]]; then
   docker_run_integration_tests "3.7-slim"
 else
   docker_run_integration_tests "3-slim"
-  docker_run_integration_tests "3.6-slim"
   docker_run_integration_tests "3.7-slim"
+  docker_run_integration_tests "3.8-slim"
+  docker_run_integration_tests "3.9-slim"
+  docker_run_integration_tests "3.10-slim"
+  docker_run_integration_tests "3.11-slim"
 fi
