@@ -9,4 +9,4 @@ This contains the documentation for our Developer Platform.
 - [v3 API Reference](./versions/v3/reference.md)
 
 - Markdown source: `sample-docs/docs/index.md`
-- Permalink: <https://spotify.github.io/mkdocs-monorepo-plugin/monorepo-example/>
+- Permalink: <https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/>

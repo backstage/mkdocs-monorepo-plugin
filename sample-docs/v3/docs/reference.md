@@ -23,7 +23,7 @@ Parameters:
 Returns a list of cats that match the search query.
 
 - Markdown source: `sample-docs/v3/docs/reference.md`
-- Permalink: <https://spotify.github.io/mkdocs-monorepo-plugin/monorepo-example/versions/v3/reference/>
+- Permalink: <https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/versions/v3/reference/>
 
 ## GET /v3/cat/:name/lives_left
 

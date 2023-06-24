@@ -23,4 +23,4 @@ Parameters:
 Returns a list of cats that match the search query.
 
 - Markdown source: `sample-docs/v2/docs/reference.md`
-- Permalink: <https://spotify.github.io/mkdocs-monorepo-plugin/monorepo-example/versions/v2/reference/>
+- Permalink: <https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/versions/v2/reference/>
