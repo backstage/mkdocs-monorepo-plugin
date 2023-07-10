@@ -48,7 +48,7 @@ class MonorepoPlugin(BasePlugin):
         self.aliases = {}
         for alias, docs_dir, yaml_file in resolvedPaths:
             self.aliases[alias] = { 'docs_dir': docs_dir, 'yaml_file': yaml_file }
-            self.merger.append(alias, docs_dir)
+            self.merger.append(alias, docs_dir, yaml_file)
         new_docs_dir = self.merger.merge()
 
         # Update the docs_dir with our temporary one!

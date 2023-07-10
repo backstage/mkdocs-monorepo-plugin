@@ -19,11 +19,15 @@ import logging
 import os
 from os.path import join
 from pathlib import Path
+import subprocess
 
-from mkdocs.utils import warning_filter
+from mkdocs.utils import warning_filter, yaml_load
 
 log = logging.getLogger(__name__)
 log.addFilter(warning_filter)
+
+
+TEMP_DOCS_DIR = "TEMP_DOCS_DIR"
 
 # This collects the multiple docs/ folders and merges them together.
 
@@ -33,11 +37,11 @@ class Merger:
         self.config = config
         self.root_docs_dir = config['docs_dir']
         self.docs_dirs = list()
-        self.append('', self.root_docs_dir)
+        self.append('', self.root_docs_dir, config.config_file_path)
         self.files_source_dir = dict()
 
-    def append(self, alias, docs_dir):
-        self.docs_dirs.append([alias, docs_dir])
+    def append(self, alias, docs_dir, yaml_file):
+        self.docs_dirs.append([alias, docs_dir, yaml_file])
 
     def merge(self):
         self.temp_docs_dir = TemporaryDirectory('', 'docs_')
@@ -50,7 +54,9 @@ class Merger:
                 "Current registered site names in the monorepository: {}".format(', '.join(aliases)))
             raise SystemExit(1)
 
-        for alias, docs_dir in self.docs_dirs:
+        for alias, docs_dir, yaml_file in self.docs_dirs:
+            with open(yaml_file) as f:
+                config = yaml_load(f)
             source_dir = docs_dir
             if len(alias) == 0:
                 dest_dir = self.temp_docs_dir.name
@@ -60,6 +66,17 @@ class Merger:
 
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
+                gen_docs_hook = config.get("mono_gen_docs_hook", {})
+                hook, python_path = gen_docs_hook.get("hook"), gen_docs_hook.get("python_path")
+                if gen_docs_hook and hook:
+                    cmd = f"{python_path or 'python'} {' '.join(hook)}"
+                    log.info(f"[mkdocs-monorepo] Running {cmd}...")
+                    subprocess.run(
+                        cmd,
+                        cwd=Path(docs_dir).parent,
+                        env={TEMP_DOCS_DIR: dest_dir, **os.environ.copy()},
+                        shell=True
+                    )
                 for file_abs_path in Path(source_dir).rglob('*.md'):
                     file_abs_path = str(file_abs_path)  # python 3.5 compatibility
                     if os.path.isfile(file_abs_path):
