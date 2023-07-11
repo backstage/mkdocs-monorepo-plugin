@@ -37,7 +37,7 @@ class Merger:
         self.config = config
         self.root_docs_dir = config['docs_dir']
         self.docs_dirs = list()
-        self.append('', self.root_docs_dir, config.config_file_path)
+        self.append('', self.root_docs_dir, getattr(config, "config_file_path", Path("mkdocs.yml")))
         self.files_source_dir = dict()
 
     def append(self, alias, docs_dir, yaml_file):
@@ -66,17 +66,20 @@ class Merger:
 
             if os.path.exists(source_dir):
                 copy_tree(source_dir, dest_dir)
-                gen_docs_hook = config.get("mono_gen_docs_hook", {})
-                hook, python_path = gen_docs_hook.get("hook"), gen_docs_hook.get("python_path")
-                if gen_docs_hook and hook:
-                    cmd = f"{python_path or 'python'} {' '.join(hook)}"
-                    log.info(f"[mkdocs-monorepo] Running {cmd}...")
-                    subprocess.run(
-                        cmd,
-                        cwd=Path(docs_dir).parent,
+                mono_docs_hook = config.get("mono_docs_hook", {})
+                hook, python_path = mono_docs_hook.get("hook"), mono_docs_hook.get("python_path")
+                cwd = mono_docs_hook.get("cwd")
+                project_dir = Path(docs_dir).parent
+                if cwd and not cwd.is_absolute():
+                    cwd = project_dir / cwd
+                if mono_docs_hook and hook:
+                    comp_proc = subprocess.run(
+                        f"{python_path or 'python'} {' '.join(hook)}",
+                        cwd=Path(cwd).resolve() if cwd else project_dir,
                         env={TEMP_DOCS_DIR: dest_dir, **os.environ.copy()},
                         shell=True
                     )
+                    comp_proc.check_returncode()
                 for file_abs_path in Path(source_dir).rglob('*.md'):
                     file_abs_path = str(file_abs_path)  # python 3.5 compatibility
                     if os.path.isfile(file_abs_path):

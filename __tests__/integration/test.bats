@@ -198,6 +198,15 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-b fixture."* ]]
 }
 
+@test "builds a mkdocs site with hooks" {
+  cd ${fixturesDir}/ok-with-hook
+  assertSuccessMkdocs build
+  assertFileExists site/project-1/index.html
+  assertFileExists site/project-1/about.html
+  assertFileExists site/project-2/index.html
+  assertFileExists site/project-2/about.html
+}
+
 @test "fails if !include path is above current folder" {
   cd ${fixturesDir}/error-include-path-is-parent
   assertFailedMkdocs build
