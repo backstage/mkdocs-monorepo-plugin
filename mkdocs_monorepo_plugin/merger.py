@@ -20,10 +20,7 @@ import os
 from os.path import join
 from pathlib import Path
 
-from mkdocs.utils import warning_filter
-
 log = logging.getLogger(__name__)
-log.addFilter(warning_filter)
 
 # This collects the multiple docs/ folders and merges them together.
 

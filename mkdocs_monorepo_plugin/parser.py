@@ -19,10 +19,9 @@ import re
 from pathlib import Path
 
 from slugify import slugify
-from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
+from mkdocs.utils import yaml_load, dirname_to_title, get_markdown_title
 from urllib.parse import urlsplit
 log = logging.getLogger(__name__)
-log.addFilter(warning_filter)
 
 INCLUDE_STATEMENT = "!include "
 WILDCARD_INCLUDE_STATEMENT = "*include "
