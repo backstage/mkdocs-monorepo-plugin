@@ -3,3 +3,4 @@ mkdocs>=1.2.3
 mkdocs-git-authors-plugin==0.3.2
 mkdocs-git-revision-date-localized-plugin==0.5.0
 python-slugify==4.0.1
+importlib-metadata==4.13.0
