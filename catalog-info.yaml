@@ -3,5 +3,6 @@ kind: Component
 metadata:
   name: mkdocs-monorepo-plugin
 spec:
-  type: library
+  lifecycle: production
+  type: backstage-common-library
   owner: protean
