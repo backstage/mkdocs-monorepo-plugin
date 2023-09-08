@@ -5,4 +5,4 @@ metadata:
 spec:
   lifecycle: production
   type: backstage-common-library
-  owner: protean
+  owner: techdocs-maintainers
