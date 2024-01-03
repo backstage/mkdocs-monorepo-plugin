@@ -1,0 +1,10 @@
+site_name: "Example"
+
+docs_dir: ./docs
+
+plugins:
+  - monorepo
+
+nav:
+  - Home: index.md
+  - project-1: "!include project-2/mkdocs.yml"

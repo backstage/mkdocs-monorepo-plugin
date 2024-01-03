@@ -1,0 +1,11 @@
+
+
+nav:
+  - Home: index.md
+  - About: about.md
+
+
+mono_docs_hook:
+  hook: 
+    - my_hook.py
+    - $TEMP_DOCS_DIR
