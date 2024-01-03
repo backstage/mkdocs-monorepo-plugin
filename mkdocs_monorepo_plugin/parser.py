@@ -296,9 +296,9 @@ class IncludeNavLoader:
                         return "{}/{}".format(alias, value)
 
                 if key is None:
-                    nav[index] = formatNavLink(alias, value)
+                    nav[index] = os.path.normpath(formatNavLink(alias, value))
                 else:
-                    nav[index][key] = formatNavLink(alias, value)
+                    nav[index][key] = os.path.normpath(formatNavLink(alias, value))
 
             elif type(value) == list:
                 nav[index] = {}
