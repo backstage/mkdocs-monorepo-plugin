@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.6
+## 1.1.0
 
 -   Dropped official support for Python 3.7
 -   Added official support for Python 3.12
