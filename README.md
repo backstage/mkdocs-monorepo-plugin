@@ -187,7 +187,7 @@ $ tree .
 
 ## Supported Versions
 
-- Python 3 &mdash; 3.7, 3.8, 3.9, 3.10, 3.11
+- Python 3.8, 3.9, 3.10, 3.11, 3.12
 - [Mkdocs] 1.0.4 and above.
 
 ## Changelog

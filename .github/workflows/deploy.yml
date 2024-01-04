@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3", "3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@master
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@master
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Install Python dependencies
         run: ./__tests__/setup-pip.sh
       - name: Build Docs
@@ -64,7 +64,7 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@master
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Build Python distribution
         run: |
           pip install wheel

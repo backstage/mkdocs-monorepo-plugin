@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+-   Dropped official support for Python 3.7
+-   Added official support for Python 3.12
+-   Replaced deprecated package `distutils` [#118](https://github.com/backstage/mkdocs-monorepo-plugin/pull/118) courtesy of @PauloASilva and @piotr1212
+
 ## 1.0.4
 
 -   Resolve a bug that prevented this plugin from working with mkdocs >= v1.4.0
