@@ -3,7 +3,7 @@
 ## 1.0.6
 
 -   Dropped official support for Python 3.7
--   Added official support for Python 3.12 and 3.13
+-   Added official support for Python 3.12
 
 ## 1.0.4
 
