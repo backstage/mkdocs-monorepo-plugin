@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6
+
+-   Dropped official support for Python 3.7
+-   Added official support for Python 3.12 and 3.13
+
 ## 1.0.4
 
 -   Resolve a bug that prevented this plugin from working with mkdocs >= v1.4.0
