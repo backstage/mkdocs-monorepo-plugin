@@ -4,6 +4,7 @@
 
 -   Dropped official support for Python 3.7
 -   Added official support for Python 3.12
+-   Replaced deprecated package `distutils` [#118](https://github.com/backstage/mkdocs-monorepo-plugin/pull/118) courtesy of @PauloASilva and @piotr1212
 
 ## 1.0.4
 
