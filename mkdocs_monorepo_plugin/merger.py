@@ -59,7 +59,7 @@ class Merger:
                 dest_dir = os.path.join(self.temp_docs_dir.name, *split_alias)
 
             if os.path.exists(source_dir):
-                copytree(source_dir, dest_dir, dirs_exist_ok=True)
+                copytree(source_dir, dest_dir, symlinks=True, dirs_exist_ok=True)
                 for file_abs_path in Path(source_dir).rglob('*.md'):
                     file_abs_path = str(file_abs_path)  # python 3.5 compatibility
                     if os.path.isfile(file_abs_path):
