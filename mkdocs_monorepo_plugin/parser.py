@@ -53,7 +53,7 @@ class Parser:
                         for mkdocs_config in dirs:
                             site = {}
                             if os.path.exists(mkdocs_config):
-                                site[str(mkdocs_config)] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                site[str(mkdocs_config)] = f"{INCLUDE_STATEMENT}{mkdocs_config.absolute()}"
                                 value.append(site)
             else:
                 value = None
@@ -114,7 +114,7 @@ class Parser:
                                 with open(mkdocs_config, 'rb') as f:
                                     site_yaml = yaml_load(f)
                                     site_name = site_yaml["site_name"]
-                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                site[site_name] = f"{INCLUDE_STATEMENT}{mkdocs_config.absolute()}"
                                 value.append(site)
                             except OSError:
                                 log.error(f"[mkdocs-monorepo] The {mkdocs_config} path is not valid.")
