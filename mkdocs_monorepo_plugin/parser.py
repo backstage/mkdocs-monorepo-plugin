@@ -54,7 +54,7 @@ class Parser:
                             site = {}
                             if os.path.exists(mkdocs_config):
                                 site[str(mkdocs_config)] = (
-                                    f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                    f"{INCLUDE_STATEMENT}{mkdocs_config.absolute()}"
                                 )
                                 value.append(site)
             else:
@@ -123,7 +123,7 @@ class Parser:
                                     site_yaml = yaml_load(f)
                                     site_name = site_yaml["site_name"]
                                 site[site_name] = (
-                                    f"{INCLUDE_STATEMENT}{mkdocs_config.resolve()}"
+                                    f"{INCLUDE_STATEMENT}{mkdocs_config.absolute()}"
                                 )
                                 value.append(site)
                             except OSError:
@@ -285,7 +285,7 @@ class IncludeNavLoader:
 
     def getAlias(self):
         alias = self.navYaml["site_name"]
-        regex = '^[a-zA-Z0-9_\.\-/]+$'  # noqa: W605
+        regex = "^[a-zA-Z0-9_\.\-/]+$"  # noqa: W605
 
         if re.match(regex, alias) is None:
             alias = slugify(self.navYaml["site_name"])
