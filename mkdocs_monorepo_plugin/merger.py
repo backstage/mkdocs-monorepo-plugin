@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from tempfile import TemporaryDirectory
-from shutil import copytree
-
 import logging
 import os
 from os.path import join
 from pathlib import Path
+from shutil import copytree
+from tempfile import TemporaryDirectory
 
 log = logging.getLogger(__name__)
 
@@ -28,23 +27,30 @@ log = logging.getLogger(__name__)
 class Merger:
     def __init__(self, config):
         self.config = config
-        self.root_docs_dir = config['docs_dir']
+        self.root_docs_dir = config["docs_dir"]
         self.docs_dirs = list()
-        self.append('', self.root_docs_dir)
+        self.append("", self.root_docs_dir)
         self.files_source_dir = dict()
 
     def append(self, alias, docs_dir):
         self.docs_dirs.append([alias, docs_dir])
 
     def merge(self):
-        self.temp_docs_dir = TemporaryDirectory('', 'docs_')
+        self.temp_docs_dir = TemporaryDirectory("", "docs_")
 
-        aliases = list(filter(lambda docs_dir: len(docs_dir) > 0, map(
-            lambda docs_dir: docs_dir[0], self.docs_dirs)))
+        aliases = list(
+            filter(
+                lambda docs_dir: len(docs_dir) > 0,
+                map(lambda docs_dir: docs_dir[0], self.docs_dirs),
+            )
+        )
         if len(aliases) != len(set(aliases)):
             log.critical(
-                "[mkdocs-monorepo] You cannot have duplicated site names. " +
-                "Current registered site names in the monorepository: {}".format(', '.join(aliases)))
+                "[mkdocs-monorepo] You cannot have duplicated site names. "
+                + "Current registered site names in the monorepository: {}".format(
+                    ", ".join(aliases)
+                )
+            )
             raise SystemExit(1)
 
         for alias, docs_dir in self.docs_dirs:
@@ -57,7 +63,7 @@ class Merger:
 
             if os.path.exists(source_dir):
                 copytree(source_dir, dest_dir, symlinks=True, dirs_exist_ok=True)
-                for file_abs_path in Path(source_dir).rglob('*.md'):
+                for file_abs_path in Path(source_dir).rglob("*.md"):
                     file_abs_path = str(file_abs_path)  # python 3.5 compatibility
                     if os.path.isfile(file_abs_path):
                         file_rel_path = os.path.relpath(file_abs_path, source_dir)
@@ -66,8 +72,9 @@ class Merger:
 
             else:
                 log.critical(
-                    "[mkdocs-monorepo] The {} path is not valid. ".format(source_dir) +
-                    "Please update your 'nav' with a valid path.")
+                    "[mkdocs-monorepo] The {} path is not valid. ".format(source_dir)
+                    + "Please update your 'nav' with a valid path."
+                )
                 raise SystemExit(1)
 
         return str(self.temp_docs_dir.name)
