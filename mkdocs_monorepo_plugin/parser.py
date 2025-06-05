@@ -285,7 +285,7 @@ class IncludeNavLoader:
 
     def getAlias(self):
         alias = self.navYaml["site_name"]
-        regex = r"^[a-zA-Z0-9_\-/]+$"  # noqa: W605
+        regex = '^[a-zA-Z0-9_\.\-/]+$'  # noqa: W605
 
         if re.match(regex, alias) is None:
             alias = slugify(self.navYaml["site_name"])
