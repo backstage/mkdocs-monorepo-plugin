@@ -6,6 +6,7 @@
 - Bumped core dependencies
 - Avoid replacing dots for underscores [#129]
 - Remove use of warning_filter (deprecated) [#108]
+- add support for monorepos with symlink folders #122
 
 ## 1.1.0
 
