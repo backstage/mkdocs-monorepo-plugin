@@ -19,10 +19,9 @@ import re
 from pathlib import Path
 
 from slugify import slugify
-from mkdocs.utils import yaml_load, warning_filter, dirname_to_title, get_markdown_title
+from mkdocs.utils import yaml_load, dirname_to_title, get_markdown_title
 from urllib.parse import urlsplit
 log = logging.getLogger(__name__)
-log.addFilter(warning_filter)
 
 INCLUDE_STATEMENT = "!include "
 WILDCARD_INCLUDE_STATEMENT = "*include "
@@ -153,13 +152,18 @@ class Parser:
 
 
 class IncludeNavLoader:
-    def __init__(self, config, navPath):
+    def __init__(self, config, navPath, ancestors=None):
         self.rootDir = os.path.normpath(os.path.join(
             os.getcwd(), config['config_file_path'], '../'))
         self.navPath = navPath
         self.absNavPath = os.path.normpath(
             os.path.join(self.rootDir, self.navPath))
         self.navYaml = None
+        # Track ancestor paths to detect cycles
+        if ancestors is None:
+            self.ancestors = set()
+        else:
+            self.ancestors = set(ancestors)
 
     def getAbsNavPath(self):
         return self.absNavPath
@@ -172,12 +176,16 @@ class IncludeNavLoader:
             )
             raise SystemExit(1)
 
-        if not self.absNavPath.startswith(self.rootDir):
+        # Cycle detection: block self-references
+        if self.absNavPath in self.ancestors:
             log.critical(
-                "[mkdocs-monorepo] The mkdocs file {} is outside of the current directory. ".format(self.absNavPath) +
-                "Please move the file and try again."
+                f"[mkdocs-monorepo] Detected a self-reference or cycle when including {self.absNavPath}. "
+                f"Inclusion chain: {' -> '.join(self.ancestors)} -> {self.absNavPath}"
             )
             raise SystemExit(1)
+
+        # Add current file to ancestors for downstream includes
+        self.ancestors.add(self.absNavPath)
 
         try:
             with open(self.absNavPath, 'rb') as f:
@@ -191,23 +199,18 @@ class IncludeNavLoader:
 
                 def navFromDir(path):
                     directory = {}
-
                     for dirname, dirnames, filenames in os.walk(path):
-
                         dirnames.sort()
                         filenames.sort()
-
                         if dirname == docsDirPath:
                             dn = os.path.basename(dirname)
                         else:
                             dn = dirname_to_title(os.path.basename(dirname))
                         directory[dn] = []
-
                         for dirItem in dirnames:
                             subNav = navFromDir(path=os.path.join(path, dirItem))
                             if subNav:
                                 directory[dn].append(subNav)
-
                         for fileItem in filenames:
                             fileName, fileExt = os.path.splitext(fileItem)
                             if fileExt == '.md':
@@ -250,6 +253,8 @@ class IncludeNavLoader:
             )
             raise SystemExit(1)
 
+        # Remove current file from ancestors after processing (for sibling includes)
+        self.ancestors.remove(self.absNavPath)
         return self
 
     def getDocsDir(self):
