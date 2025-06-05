@@ -6,7 +6,8 @@
 - Bumped core dependencies
 - Avoid replacing dots for underscores [#129]
 - Remove use of warning_filter (deprecated) [#108]
-- add support for monorepos with symlink folders #122
+- add support for monorepos with symlink folders [#122]
+- Fix edit URL for included projects with nested site_name [#128]
 
 ## 1.1.0
 
