@@ -8,4 +8,4 @@ plugins:
 
 nav:
   - Home: index.md
-  - Section: '!include ../mkdocs.yml'
+  - Section: '!include ../ok/project-a/mkdocs.yml'

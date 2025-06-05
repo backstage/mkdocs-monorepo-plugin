@@ -31,6 +31,8 @@ $ pip install mkdocs-monorepo-plugin
 
 Take a look in [our sample project](./sample-docs) for an example implementation, or see [what it looks like after running `mkdocs build`](https://backstage.github.io/mkdocs-monorepo-plugin/monorepo-example/).
 
+For further examples, take a look at our [test suite](__tests__/integration/fixtures) which covers dozens of good and bad examples of using Mkdocs with the `monorepo` plugin.
+
 In general, this plugin introduces the `!include` syntax in your Mkdocs navigation structure and then merges them together.
 
 ```yaml

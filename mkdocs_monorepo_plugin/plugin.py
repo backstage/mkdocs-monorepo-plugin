@@ -13,9 +13,10 @@
 # limitations under the License.
 
 from mkdocs.plugins import BasePlugin
-from .parser import Parser
-from .merger import Merger
+
 from .edit_uri import set_edit_url
+from .merger import Merger
+from .parser import Parser
 
 
 class MonorepoPlugin(BasePlugin):
@@ -30,29 +31,29 @@ class MonorepoPlugin(BasePlugin):
         """Initialize MonorepoPlugin and return config of aggregated docs
         folder."""
         # If no 'nav' defined, we don't need to run.
-        if not config.get('nav'):
+        if not config.get("nav"):
             return config
 
         # setting originalDocsDir means that on_config has been run
-        self.originalDocsDir = config['docs_dir']
+        self.originalDocsDir = config["docs_dir"]
 
         # Handle !import statements
         self.parser = Parser(config)
         resolvedNav = self.parser.resolve()
         resolvedPaths = self.parser.getResolvedPaths()
 
-        config['nav'] = resolvedNav
+        config["nav"] = resolvedNav
 
         # Generate a new "docs" directory
         self.merger = Merger(config)
         self.aliases = {}
         for alias, docs_dir, yaml_file in resolvedPaths:
-            self.aliases[alias] = { 'docs_dir': docs_dir, 'yaml_file': yaml_file }
+            self.aliases[alias] = {"docs_dir": docs_dir, "yaml_file": yaml_file}
             self.merger.append(alias, docs_dir)
         new_docs_dir = self.merger.merge()
 
         # Update the docs_dir with our temporary one!
-        config['docs_dir'] = new_docs_dir
+        config["docs_dir"] = new_docs_dir
 
         # Store resolved paths for later.
         self.resolvedPaths = resolvedPaths
@@ -77,8 +78,8 @@ class MonorepoPlugin(BasePlugin):
         if self.originalDocsDir is None:
             return
         # Support mkdocs < 1.2
-        if hasattr(server, 'watcher'):
-            buildfunc = list(server.watcher._tasks.values())[0]['func']
+        if hasattr(server, "watcher"):
+            buildfunc = list(server.watcher._tasks.values())[0]["func"]
 
             # still watch the original docs/ directory
             server.watch(self.originalDocsDir, buildfunc)

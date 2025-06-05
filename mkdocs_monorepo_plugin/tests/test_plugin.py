@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 import unittest
+
 from mkdocs_monorepo_plugin import plugin as p
 
 
-class MockServer():
+class MockServer:
     """MockServer tracks what the livereload.Server instance is watching."""
 
     def __init__(self):
@@ -22,10 +23,7 @@ class TestMonorepoPlugin(unittest.TestCase):
 
     def test_plugin_on_config_with_nav(self):
         plugin = p.MonorepoPlugin()
-        plugin.on_config({
-                    "nav": {"page1": "page1.md"},
-                    "docs_dir": "docs"
-                })
+        plugin.on_config({"nav": {"page1": "page1.md"}, "docs_dir": "docs"})
         self.assertEqual(plugin.originalDocsDir, "docs")
 
     def test_plugin_on_serve_no_run(self):
@@ -41,6 +39,4 @@ class TestMonorepoPlugin(unittest.TestCase):
         plugin.resolvedPaths = []
         server = MockServer()
         plugin.on_serve(server, {})
-        self.assertSetEqual(set(server.watched), {
-            "docs"
-            })
+        self.assertSetEqual(set(server.watched), {"docs"})

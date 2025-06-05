@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.1
+
+- Removed overly restrictive directory structure. It is now possible to call directories outside of your current directory. [#139]
+- Bumped core dependencies
+- Avoid replacing dots for underscores [#129]
+- Remove use of warning_filter (deprecated) [#108]
+- add support for monorepos with symlink folders [#122]
+- Fix edit URL for included projects with nested site_name [#128]
+
 ## 1.1.0
 
 -   Dropped official support for Python 3.7

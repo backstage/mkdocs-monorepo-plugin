@@ -198,10 +198,15 @@ teardown() {
   [[ "$output" == *"This contains a sentence which only exists in the ok-include-wildcard/project-b fixture."* ]]
 }
 
-@test "fails if !include path is above current folder" {
-  cd ${fixturesDir}/error-include-path-is-parent
-  assertFailedMkdocs build
-  [[ "$output" == *"[mkdocs-monorepo] The mkdocs file "*"/__tests__/integration/fixtures/mkdocs.yml is outside of the current directory. Please move the file and try again."* ]]
+@test "builds a mkdocs site if !include path is outside root" {
+  cd ${fixturesDir}/ok-include-path-outside-root
+  assertSuccessMkdocs build
+
+  assertFileExists site/index.html
+  [[ "$output" == *"Lorem markdownum aequora Famemque, a ramos regna Ulixem verba, posito qui
+nubilus membra."* ]]
+  assertFileExists site/test/index.html
+  [[ "$output" == *"This contains a sentence which only exists in the ok/project-a fixture."* ]]
 }
 
 @test "fails if !include path contains !include" {
@@ -266,6 +271,15 @@ teardown() {
   assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/docs/index.md"'
   assertFileContains './site/test/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/api/docs/index.md"'
   assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/api/docs/other/other.md"'
+}
+
+@test "sets edit url for nested included path pages" {
+  cd ${fixturesDir}/ok-include-path-edit-uri-nested
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/docs/index.md"'
+  assertFileContains './site/test/api/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/api/docs/index.md"'
+  assertFileContains './site/test/api/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/api/docs/other/other.md"'
 }
 
 @test "sets edit url for included wildcard pages" {
