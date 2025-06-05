@@ -14,7 +14,7 @@ setuptools.setup(
     author="Bilawal Hameed",
     author_email="bil@spotify.com",
     license="Apache-2.0",
-    python_requires=">=3",
+    python_requires=">=3.9",
     install_requires=["mkdocs>=1.0.4", "python-slugify>=4.0.1"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -22,7 +22,6 @@ setuptools.setup(
         "Intended Audience :: Information Technology",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

@@ -8,6 +8,7 @@
 - Remove use of warning_filter (deprecated) [#108]
 - add support for monorepos with symlink folders [#122]
 - Fix edit URL for included projects with nested site_name [#128]
+- Dropped official support for Python 3.8
 
 ## 1.1.0
 

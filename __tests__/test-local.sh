@@ -23,12 +23,10 @@ echo "Running E2E tests via Bats in Docker (python:$1) -------->"
 docker run -it -w /workspace -v $(pwd):/workspace mkdocs-monorepo-test-runner:$1
 }
 
-if [[ ! -z "$PYTHON_37_ONLY" ]]; then
-  docker_run_integration_tests "3.7-slim"
+if [[ ! -z "$PYTHON_39_ONLY" ]]; then
+  docker_run_integration_tests "3.9-slim"
 else
   docker_run_integration_tests "3-slim"
-  docker_run_integration_tests "3.7-slim"
-  docker_run_integration_tests "3.8-slim"
   docker_run_integration_tests "3.9-slim"
   docker_run_integration_tests "3.10-slim"
   docker_run_integration_tests "3.11-slim"

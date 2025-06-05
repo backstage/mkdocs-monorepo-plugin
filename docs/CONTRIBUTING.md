@@ -145,10 +145,10 @@ The command below will use Docker to run our test suites in numerous Python vers
 $ ./__tests__/test-local.sh
 ```
 
-For faster tests, you can opt to run in Python 3.7 rather than all supported Python versions:
+For faster tests, you can opt to run in Python 3.9 rather than all supported Python versions:
 
 ```terminal
-$ PYTHON_37_ONLY=1 ./__tests__/test-local.sh
+$ PYTHON_39_ONLY=1 ./__tests__/test-local.sh
 ```
 
 [GitHub Actions] will always execute tests a little faster (due to parallelization) when you push your branch. Due to this, you can choose to opt of running them locally if you wish!
