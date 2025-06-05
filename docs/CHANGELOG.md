@@ -2,8 +2,9 @@
 
 ## 1.1.1
 
-- Removed overly restrictive directory structure. It is now possible to call directories outside of your current directory. (fixes [#139](https://github.com/backstage/mkdocs-monorepo-plugin/issues/139))
+- Removed overly restrictive directory structure. It is now possible to call directories outside of your current directory. [#139]
 - Bumped core dependencies
+- Avoid replacing dots for underscores [#129]
 
 ## 1.1.0
 
