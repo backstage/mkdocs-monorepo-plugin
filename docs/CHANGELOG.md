@@ -5,6 +5,7 @@
 - Removed overly restrictive directory structure. It is now possible to call directories outside of your current directory. [#139]
 - Bumped core dependencies
 - Avoid replacing dots for underscores [#129]
+- Remove use of warning_filter (deprecated) [#108]
 
 ## 1.1.0
 
