@@ -273,6 +273,15 @@ nubilus membra."* ]]
   assertFileContains './site/test/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri/api/docs/other/other.md"'
 }
 
+@test "sets edit url for nested included path pages" {
+  cd ${fixturesDir}/ok-include-path-edit-uri-nested
+  assertSuccessMkdocs build
+
+  assertFileContains './site/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/docs/index.md"'
+  assertFileContains './site/test/api/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/api/docs/index.md"'
+  assertFileContains './site/test/api/other/other/index.html' 'href="https://github.com/backstage/mkdocs-monorepo-plugin/edit/master/__tests__/integration/fixtures/ok-include-path-edit-uri-nested/api/docs/other/other.md"'
+}
+
 @test "sets edit url for included wildcard pages" {
   cd ${fixturesDir}/ok-include-wildcard-edit-uri
   assertSuccessMkdocs build

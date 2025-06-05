@@ -45,7 +45,7 @@ class EditUrl:
         return path.relpath(abs_page_config_file_dir, abs_root_config_file_dir)
 
     def __get_page_src_path(self):
-        alias = self.page.url.split("/")[0]
+        alias = self.__get_page_dir_alias()
         path = self.page.file.src_path
         return path.replace("{}/".format(alias), "")
 
