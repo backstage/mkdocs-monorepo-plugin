@@ -18,7 +18,8 @@ jobs:
         python-version: ["3", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@master
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@master
         with:
@@ -30,10 +31,13 @@ jobs:
       - name: Tests
         run: ./__tests__/test-ci.sh
 
-  docs:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@master
         with:
@@ -50,15 +54,25 @@ jobs:
         run: |
           mkdocs build --theme material \
                 --site-dir ../site/monorepo-example/
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@8fd3a55a6f17e453f71eb37964ff360eee24daa7
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./site
-
-  publish:
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+          
+  publish-docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build-docs
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  publish-pypi:
+    runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@master
       - name: Set up Python ${{ matrix.python-version }}
